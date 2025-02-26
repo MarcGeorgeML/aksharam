@@ -1,0 +1,19 @@
+FULL TRANSLATION:
+Thiruvananthapuram Gram Panchayat LS G.D Primary Health Centre Agriculture Office Village Office Thiruvananthapuram
+
+LINE BY LINE TRANSLATIONS:
+Malayalam: തിരുവാണിയുർ ഗ്രാമപഞ്ചായത്ത് LS G.D
+English: LS G.D. at Thiruvananthapuram Gram Panchayat
+----------------------------------------
+Malayalam: പ്രൈമറി ഹൈൽത്ത് സെൻർ
+English: Primary Health Centre
+----------------------------------------
+Malayalam: കൃഷി ഓഫീസ്
+English: Agricultural office
+----------------------------------------
+Malayalam: വില്ലേജ് ഓഫീസ്
+English: Village office
+----------------------------------------
+Malayalam: തിരുവാണിയുർ
+English: Thiruvananthapuram
+----------------------------------------
