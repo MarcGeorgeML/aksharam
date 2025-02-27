@@ -1,19 +1,22 @@
 FULL TRANSLATION:
-Thiruvananthapuram Gram Panchayat LS G.D Primary Health Centre Agriculture Office Village Office Thiruvananthapuram
+- Alpara - Ummanchandi Colony - Kerala PVD Bhatti Khuli - South Mountains Shod MDR ER MOBILE B
 
 LINE BY LINE TRANSLATIONS:
-Malayalam: തിരുവാണിയുർ ഗ്രാമപഞ്ചായത്ത് LS G.D
-English: LS G.D. at Thiruvananthapuram Gram Panchayat
+Malayalam: - ആൽപ്രാറ - ഉമ്മൻചാണ്ടി കോളന്നീ -
+English: - Alpraza - - the mother of the colony
 ----------------------------------------
-Malayalam: പ്രൈമറി ഹൈൽത്ത് സെൻർ
-English: Primary Health Centre
+Malayalam: KERALA
+English: Kerala
 ----------------------------------------
-Malayalam: കൃഷി ഓഫീസ്
-English: Agricultural office
+Malayalam: PVD
+English: PVD is
 ----------------------------------------
-Malayalam: വില്ലേജ് ഓഫീസ്
-English: Village office
+Malayalam: ബ്രതിക്കുഴി - തെക്കേമല ശോഡ്
+English: The Brati Kutli - South Mountain Shod
 ----------------------------------------
-Malayalam: തിരുവാണിയുർ
-English: Thiruvananthapuram
+Malayalam: MDR
+English: MDR
+----------------------------------------
+Malayalam: ER MOBILE B
+English: ER MOBILE B is a
 ----------------------------------------

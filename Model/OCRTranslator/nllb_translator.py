@@ -1,7 +1,6 @@
 from transformers import pipeline
 import os
 
-
 def translate_malayalam_to_english(text):
     """
     Translate Malayalam text to English using NLLB model.
@@ -17,7 +16,7 @@ def translate_malayalam_to_english(text):
     """
     # Load the translation pipeline
     print("Loading translator...")
-    translator = pipeline("translation", model="facebook/nllb-200-distilled-600M")
+    translator = pipeline("translation", model="facebook/nllb-200-distilled-1.3B")
     
     translations = {}
     

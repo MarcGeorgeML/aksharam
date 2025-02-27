@@ -1,7 +1,6 @@
 import json
 from huggingface_hub import InferenceClient
 
-API_KEY = "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"
 
 # Initialize the Hugging Face Inference Client
 client = InferenceClient(api_key=API_KEY)  # Replace with your actual API key

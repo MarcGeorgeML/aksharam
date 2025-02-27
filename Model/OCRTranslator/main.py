@@ -1,4 +1,4 @@
-from indictranslate import translate_malayalam_to_english, display_translations
+from nllb_translator import translate_malayalam_to_english, display_translations
 from PIL import Image, ImageDraw, ImageFont
 from surya.recognition import RecognitionPredictor
 from surya.detection import DetectionPredictor
@@ -59,7 +59,7 @@ def extract_malayalam_text(image_path):
     return extracted_text
 
 def main():
-    IMAGE_PATH = 'input/testimg2.jpg'
+    IMAGE_PATH = 'input/testimg10.png'
     malayalam_text = extract_malayalam_text(IMAGE_PATH)
 
     translated_texts = translate_malayalam_to_english(malayalam_text)
