@@ -1,4 +1,5 @@
 venv
 Model/OCRTranslator/__pycache__
+Model/OCRTranslator/.env
 IndicTrans2
 IndicTransToolkit
