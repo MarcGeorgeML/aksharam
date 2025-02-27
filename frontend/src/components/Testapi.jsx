@@ -17,8 +17,8 @@ const Testapi = () => {
     }, []);
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">
+        <div className="h-screen flex justify-center items-center">
+            <h1 className="text-red-600 font-bold text-3xl">
                 { data }
             </h1>
         </div>
