@@ -1,4 +1,4 @@
-from mtranslate import translate_malayalam_to_english, display_translations
+from indictranslate import translate_malayalam_to_english, display_translations
 from PIL import Image, ImageDraw, ImageFont
 from surya.recognition import RecognitionPredictor
 from surya.detection import DetectionPredictor
