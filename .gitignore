@@ -1,6 +1,6 @@
 venv
-Model/OCRTranslator/__pycache__
-Model/OCRTranslator/.env
+Modules/OCRTranslator/__pycache__
+Modules/OCRTranslator/.env
 IndicTrans2
 IndicTransToolkit
-Model/ObjectDetection/__pycache__
+Modules/ObjectDetection/__pycache__
