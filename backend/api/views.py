@@ -36,6 +36,10 @@ def test_canvas(request):
         image_array = np.frombuffer(image_bytes, dtype=np.uint8)
         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
 
+        # convert BGR to RGB (if needed)
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
         if image is None:
             return JsonResponse({"message": "Error decoding image"}, status=status.HTTP_400_BAD_REQUEST)
 
