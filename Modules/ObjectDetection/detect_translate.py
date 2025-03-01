@@ -7,19 +7,16 @@ from transformers import pipeline
 from PIL import Image, ImageDraw, ImageFont
 
 def detect_and_translate(image_path="sample_image.jpg"):
-    # Check if file exists
     if not os.path.isfile(image_path):
         print(f"Error: Image file not found at {image_path}")
         return
     
-    # Create output directories if they don't exist
     output_img_dir = "output"
     output_text_dir = os.path.join("output", "text")
     
     os.makedirs(output_img_dir, exist_ok=True)
     os.makedirs(output_text_dir, exist_ok=True)
     
-    # Load the translation model
     try:
         print("Loading translation model...")
         translator = pipeline("translation", model="facebook/nllb-200-distilled-1.3B")
@@ -29,7 +26,6 @@ def detect_and_translate(image_path="sample_image.jpg"):
         print("Make sure to install transformers package: pip install transformers sentencepiece")
         return
     
-    # Load the YOLOv8 model
     try:
         print("Loading YOLOv8 model...")
         model = YOLO("yolov8n.pt")
@@ -39,13 +35,11 @@ def detect_and_translate(image_path="sample_image.jpg"):
         print("Make sure to install ultralytics package: pip install ultralytics")
         return
     
-    # Load the image with OpenCV for detection
     image_cv = cv2.imread(image_path)
     if image_cv is None:
         print(f"Error: Could not load image from {image_path}")
         return
     
-    # Load the same image with PIL for text rendering
     image_pil = Image.open(image_path)
     draw = ImageDraw.Draw(image_pil)
     
