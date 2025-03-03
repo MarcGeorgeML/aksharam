@@ -9,7 +9,10 @@ import base64
 import cv2
 import numpy as np
 import os
-
+from PIL import Image
+import torch
+from torchvision import transforms
+from .ml_model.architecture import ConvNet
 
 # Create your views here.
 
@@ -38,14 +41,36 @@ def test_canvas(request):
 
         # convert BGR to RGB (if needed)
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_pil = Image.fromarray(image_rgb)
 
 
-        if image is None:
+        if image_pil is None:
             return JsonResponse({"message": "Error decoding image"}, status=status.HTTP_400_BAD_REQUEST)
 
-        cv2.imshow("Received Image", image)
-        cv2.waitKey(0)  
-        cv2.destroyAllWindows()
+        raw_transform = transforms.Compose([
+            transforms.Resize((32, 32)),                    
+            transforms.ToTensor(),                          
+        ])
+
+        MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model.pth")
+
+        # Load the model
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model = ConvNet().to(device)
+        model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+        model.eval()
+
+        transformed_image = raw_transform(image_pil)
+        transformed_image = transformed_image.unsqueeze(0)
+
+        # Move input to the same device as the model
+        transformed_image = transformed_image.to(device)
+
+
+        with torch.no_grad():
+            output = model(transformed_image)
+            _, predicted = torch.max(output, 1)
+            print(f"Predicted class: {predicted.item()}")
 
         # Always return a response
         return JsonResponse({"message": "Image received and displayed successfully"}, status=status.HTTP_200_OK)

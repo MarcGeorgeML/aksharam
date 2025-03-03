@@ -8,7 +8,7 @@ const TestCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     
-    ctx.lineWidth = 10;  
+    ctx.lineWidth = 8;  
     ctx.lineCap = "round"; 
     ctx.lineJoin = "round"; 
   
@@ -95,8 +95,8 @@ const TestCanvas = () => {
     <div className="flex flex-col items-center space-y-4 p-4">
       <canvas
         ref={canvasRef}
-        width={400}
-        height={400}
+        width={300}
+        height={300}
         className="border border-gray-300"
         onMouseDown={startDrawing}
         onMouseMove={draw}
