@@ -59,7 +59,7 @@ def extract_malayalam_text(image_path):
     return extracted_text
 
 def main():
-    IMAGE_PATH = 'input/testimg10.png'
+    IMAGE_PATH = 'input/testimg2.jpg'
     malayalam_text = extract_malayalam_text(IMAGE_PATH)
 
     translated_texts = translate_malayalam_to_english(malayalam_text)
