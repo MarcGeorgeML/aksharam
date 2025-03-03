@@ -13,8 +13,16 @@ from PIL import Image
 import torch
 from torchvision import transforms
 from .ml_model.architecture import ConvNet
+import pandas as pd
 
 # Create your views here.
+
+
+csv_path = os.path.join(os.path.dirname(__file__), "ml_model", "label_2_letter.csv")
+class_labels_df = pd.read_csv(csv_path)
+class_mapping = dict(zip(class_labels_df["Image Name"], class_labels_df["Class Label"]))
+
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model.pth")
 
 def get_word_categories(request):
     categories = list(WordCategory.objects.values())
@@ -52,7 +60,6 @@ def test_canvas(request):
             transforms.ToTensor(),                          
         ])
 
-        MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model.pth")
 
         # Load the model
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -70,10 +77,18 @@ def test_canvas(request):
         with torch.no_grad():
             output = model(transformed_image)
             _, predicted = torch.max(output, 1)
-            print(f"Predicted class: {predicted.item()}")
+            predicted_class = predicted.item()
 
-        # Always return a response
-        return JsonResponse({"message": "Image received and displayed successfully"}, status=status.HTTP_200_OK)
+        predicted_label = class_mapping.get(predicted_class, "Unknown")
+
+
+        return JsonResponse({"predicted_label": predicted_label}, status=status.HTTP_200_OK)
+        # class_label = class_label[0] if len(class_label) > 0 else "Unknown"
+
+
+
+        # # Always return a response
+        # return JsonResponse({"Prediction": class_label}, status=status.HTTP_200_OK)
 
     except Exception as e:
         return JsonResponse({"message": f"Error processing image: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

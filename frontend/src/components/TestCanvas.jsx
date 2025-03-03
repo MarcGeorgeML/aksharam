@@ -84,7 +84,8 @@ const TestCanvas = () => {
       });
 
       const data = await response.json();
-      setResponseMessage(data.message || "Image sent to backend successfully.");
+      console.log(data)
+      setResponseMessage(data.predicted_label || "Image sent to backend successfully.");
     } catch (error) {
       setResponseMessage("Error sending image to backend.");
       console.error("Error:", error);
