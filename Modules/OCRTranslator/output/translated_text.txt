@@ -1,19 +1,22 @@
 FULL TRANSLATION:
-Thiruvananthapuram Gram Panchayat LS G.D Primary Health Centre Agriculture office Village office Thiruvananthapuram
+Sometimes you just want to talk to someone, but you don't know that they don't want to talk to you.
 
 LINE BY LINE TRANSLATIONS:
-Malayalam: തിരുവാണിയുർ ഗ്രാമപഞ്ചായത്ത് LS G.D
-English: LS G.D. of Thiruvananthapuram Gram Panchayat
+Malayalam: ചില നേരം
+English: For a while.
 ----------------------------------------
-Malayalam: പ്രൈമറി ഹൈൽത്ത് സെൻ്റർ
-English: Primary Health Centre
+Malayalam: ചിലരോട് മിണ്ടാൻ മനസ്സ് വല്ലാതെ
+English: Some people are too scared to talk.
 ----------------------------------------
-Malayalam: കൃഷി ഓഫീസ്
-English: The Agriculture Office
+Malayalam: കൊതിക്കും
+English: I want to.
 ----------------------------------------
-Malayalam: വില്ലേജ് ഓഫീസ്
-English: Village office.
+Malayalam: മനസ്സിനറിയില്ലല്ലോ ആ ചിലർക്ക്
+English: Some of them don't know.
 ----------------------------------------
-Malayalam: തിരുവാണിയുർ
-English: Thiruvaniyur
+Malayalam: നമ്മങ്ങോട് മിണ്ടാൻ
+English: To talk to you.
+----------------------------------------
+Malayalam: താല്പര്യമില്ലെന്ന്. !
+English: I don't want to!
 ----------------------------------------

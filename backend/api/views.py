@@ -25,8 +25,10 @@ class_mapping = dict(zip(class_labels_df["Image Name"], class_labels_df["Class L
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model.pth")
 
 def get_word_categories(request):
-    categories = list(WordCategory.objects.values())
-    return JsonResponse({"word_categories": categories})
+    words = Word.objects.select_related('word_category').values(
+        'id', 'word', 'english_version', 'word_translation', 'category_id', 'category'
+    )  
+    return JsonResponse({"Words": list(words)})
 
 
 @api_view(['GET'])
