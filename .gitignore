@@ -6,3 +6,4 @@ IndicTransToolkit
 Modules/ObjectDetection/__pycache__
 first_review_demo
 backend/api/__pycache__
+backend/api/ml_model/backup
