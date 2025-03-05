@@ -1,0 +1,22 @@
+FULL TRANSLATION:
+Sometimes you just want to talk to someone, but you don't know that they don't want to talk to you.
+
+LINE BY LINE TRANSLATIONS:
+Malayalam: ചില നേരം
+English: For a while.
+----------------------------------------
+Malayalam: ചിലരോട് മിണ്ടാൻ മനസ്സ് വല്ലാതെ
+English: Some people are too scared to talk.
+----------------------------------------
+Malayalam: കൊതിക്കും
+English: I want to.
+----------------------------------------
+Malayalam: മനസ്സിനറിയില്ലല്ലോ ആ ചിലർക്ക്
+English: Some of them don't know.
+----------------------------------------
+Malayalam: നമ്മങ്ങോട് മിണ്ടാൻ
+English: To talk to you.
+----------------------------------------
+Malayalam: താല്പര്യമില്ലെന്ന്. !
+English: I don't want to!
+----------------------------------------

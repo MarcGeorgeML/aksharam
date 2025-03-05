@@ -1,0 +1,9 @@
+venv
+Modules/OCRTranslator/__pycache__
+Modules/OCRTranslator/.env
+IndicTrans2
+IndicTransToolkit
+Modules/ObjectDetection/__pycache__
+first_review_demo
+backend/api/__pycache__
+backend/api/ml_model/backup
