@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
+//import { useNavigate } from "react-router-dom";
+import api from "../api"; 
 
 const TestCanvas = () => {
   const canvasRef = useRef(null);
   const [responseMessage, setResponseMessage] = useState("");
+  //const navigate = useNavigate(); 
 
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
@@ -74,22 +77,18 @@ const TestCanvas = () => {
 
     const image = tempCanvas.toDataURL("image/png");
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/testcanvas/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ image }),
-      });
-
-      const data = await response.json();
-      console.log(data)
-      setResponseMessage(data.predicted_label || "Image sent to backend successfully.");
-    } catch (error) {
+    api
+    .post(
+      "/api/testcanvas/",
+      { image }
+    )
+    .then((res) => {
+      setResponseMessage(res.data.predicted_label || "Image sent to backend successfully.");
+    })
+    .catch((error) => {
       setResponseMessage("Error sending image to backend.");
       console.error("Error:", error);
-    }
+    });
   };
 
   return (

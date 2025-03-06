@@ -37,6 +37,7 @@ def get_word_categories(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def test(request):
     return JsonResponse({"message": "Aksharam"})
 
@@ -50,6 +51,8 @@ def test_canvas(request):
 
         if not image_data.startswith("data:image/png;base64,"):
             return JsonResponse({"message": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        print('got image')
 
         # Decode base64 image
         image_data = image_data.split(",")[1]
