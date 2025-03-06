@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Logout from './components/Logout';
 import NotFound from './pages/NottFound';
 import ProtectedRoute from './components/ProtectedRoute';
+import Letters from './pages/Letters';
 
 function RegisterAndLogout() {
   localStorage.clear()
@@ -23,6 +24,11 @@ function App() {
         <Route path='' element={
           <ProtectedRoute>
             <HomePage />
+          </ProtectedRoute>
+        } />
+        <Route path='/letters' element={
+          <ProtectedRoute>
+            <Letters />
           </ProtectedRoute>
         } />
         <Route path='/testhome' element={
