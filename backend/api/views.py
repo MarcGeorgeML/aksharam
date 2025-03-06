@@ -136,12 +136,19 @@ def note_delete(request, pk):
     note.delete()
     return Response({'message': 'Note deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
-# Create a User
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def create_user(request):
+    # Check if the username already exists
+    username = request.data.get('username')
+    if User.objects.filter(username=username).exists():
+        print('user exists')
+        return Response({"detail": "invalid_username"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # If the username doesn't exist, proceed with the serializer
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

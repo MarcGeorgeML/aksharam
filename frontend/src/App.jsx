@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Testapi from './components/Testapi'
 import TestCanvas from './components/TestCanvas';
 import HomePage from './pages/HomePage';
+import TestHomePage from './pages/TestHomePage';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Logout from './components/Logout';
@@ -22,6 +23,11 @@ function App() {
         <Route path='' element={
           <ProtectedRoute>
             <HomePage />
+          </ProtectedRoute>
+        } />
+        <Route path='/testhome' element={
+          <ProtectedRoute>
+            <TestHomePage />
           </ProtectedRoute>
         } />
         <Route path='/testcanvas' element={
