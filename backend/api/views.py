@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
 from .models import WordCategory, Word
 import base64
 import cv2
@@ -14,6 +11,14 @@ import torch
 from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
+from django.contrib.auth.models import User
+from .serializers import UserSerializer, NoteSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .models import Note
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
@@ -35,7 +40,10 @@ def get_word_categories(request):
 def test(request):
     return JsonResponse({"message": "Aksharam"})
 
+
+
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def test_canvas(request):
     try:
         image_data = request.data.get("image", "")
@@ -94,3 +102,43 @@ def test_canvas(request):
 
     except Exception as e:
         return JsonResponse({"message": f"Error processing image: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def note_list_create(request):
+    if request.method == 'GET':
+        notes = Note.objects.filter(author=request.user)
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = NoteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(author=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Delete a Note
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def note_delete(request, pk):
+    try:
+        note = Note.objects.get(pk=pk, author=request.user)
+    except Note.DoesNotExist:
+        return Response({'error': 'Note not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    note.delete()
+    return Response({'message': 'Note deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+# Create a User
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_user(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
