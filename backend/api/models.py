@@ -7,6 +7,28 @@ from django.contrib.auth.models import User
 #     email = models.CharField(max_length=100)
 #     score = models.IntegerField()
 
+class Letters(models.Model):
+    id = models.AutoField(primary_key=True)
+    letter = models.CharField(max_length=5, unique=True)
+
+    class Meta:
+        db_table = "letters"
+
+    def __str__(self):
+        return self.letter
+
+class Example(models.Model):
+    letter = models.ForeignKey(Letters, on_delete=models.CASCADE, related_name="examples")
+    example = models.CharField(max_length=255)
+    translation = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "letters_example"
+
+    def __str__(self):
+        return f"{self.example_text} - {self.translation}"
+
+
 class WordCategory(models.Model):
     category = models.CharField(max_length=255, unique=True)
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import WordCategory, Word
+from .models import Letters, WordCategory, Word
 import base64
 import cv2
 import numpy as np
@@ -12,7 +12,7 @@ from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
 from django.contrib.auth.models import User
-from .serializers import UserSerializer, NoteSerializer
+from .serializers import LetterSerializer, UserSerializer, NoteSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 from rest_framework.decorators import api_view, permission_classes
@@ -106,7 +106,15 @@ def test_canvas(request):
     except Exception as e:
         return JsonResponse({"message": f"Error processing image: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_letters(request):
+    try:
+        letters = Letters.objects.all() 
+        serializer = LetterSerializer(letters, many=True) 
+        return Response(serializer.data, status=status.HTTP_200_OK)  
+    except Letters.DoesNotExist:
+        return Response({"message": "No letters found."}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'POST'])
