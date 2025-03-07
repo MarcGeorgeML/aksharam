@@ -10,6 +10,8 @@ import Logout from './components/Logout';
 import NotFound from './pages/NottFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import Letters from './pages/Letters';
+import LandingPage from './pages/LandingPage';
+import LetterDetails from './pages/LetterDetails';
 
 function RegisterAndLogout() {
   localStorage.clear()
@@ -21,7 +23,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='' element={
+      <Route path='/' element={<LandingPage />} />
+        <Route path='/home' element={
           <ProtectedRoute>
             <HomePage />
           </ProtectedRoute>
@@ -29,6 +32,11 @@ function App() {
         <Route path='/letters' element={
           <ProtectedRoute>
             <Letters />
+          </ProtectedRoute>
+        } />
+        <Route path='/letters/:id' element={
+          <ProtectedRoute>
+            <LetterDetails />
           </ProtectedRoute>
         } />
         <Route path='/testhome' element={

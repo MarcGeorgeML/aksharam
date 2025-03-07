@@ -4,7 +4,7 @@ const NotFound = () => {
     const navigate = useNavigate();
 
     function handleClick() {
-      navigate("/")
+      navigate("/home")
     }
 
     return (
