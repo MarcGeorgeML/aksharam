@@ -14,21 +14,24 @@ const Navbar = ({ activeIndex }) => {
 
   return (
     <nav className="bg-transparent p-4">
-      <ul className="flex justify-center space-x-[60px] pt-3">
-        {navItems.map((item, index) => (
-          <li key={index}>
-            <button
-              onClick={() => navigate(item.path)}
-              className={`px-5 py-2 rounded-xl text-black text-[18px] font-inria transition ${
-                index === activeIndex ? "border-2 border-gray-800" : ""
-              }`}
-            >
-              {item.name}
-            </button>
-          </li>
-        ))}
-        
-      </ul>
+      <div className="flex justify-between">
+        <img src="logo.svg" alt="" className="w-[50px] ml-5"/>
+        <ul className="flex justify-center space-x-[60px] pt-3">
+          {navItems.map((item, index) => (
+            <li key={index}>
+              <button
+                onClick={() => navigate(item.path)}
+                className={`px-5 py-2 rounded-xl text-black text-[18px] font-inria transition ${
+                  index === activeIndex ? "border-2 border-gray-800" : ""
+                }`}
+              >
+                {item.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <img src="/assets/user.png" alt="" className="w-[30px] h-[28px] mt-[15px] mr-5"/>
+      </div>
       <Divider/>
     </nav>
   );
