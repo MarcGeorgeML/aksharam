@@ -3,6 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import NotFound from './NottFound';
 import { useRef, useState, useEffect } from "react";
 import api from "../api";
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
+
+
 
 const LetterDetails = () => {
   const location = useLocation();
@@ -93,10 +97,16 @@ const LetterDetails = () => {
       const res = await api.post("/api/testcanvas/", { image });
 			if (res.data.predicted_label === letter.letter) {
 				setVerfied(true);
-				setResponseMessage("Great Job :)")
+				// setResponseMessage("Great Job :)")
+        toast("Great Job !!", {
+          className: "bg-blue-500 text-black border border-blue-700",
+        })
 			}
 			else {
-				setResponseMessage("Try Again :(")
+				//setResponseMessage("Try Again :(")
+        toast("Try Again :(", {
+          className: "bg-blue-500 text-black border-blue-700",
+        });
 			}
       // setResponseMessage(res.data.predicted_label || "Image sent to backend successfully.");
     } catch (error) {
@@ -166,6 +176,7 @@ const LetterDetails = () => {
 						</button>
 						{responseMessage && <p className="mt-10 font-inria text-[20px] text-text_green">{responseMessage}</p>}
 					</div>
+          <Toaster richColors unstyled />
         </div>
 			</div>
 		</div>
