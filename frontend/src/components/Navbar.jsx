@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import Divider from "./Divider";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const Navbar = ({ activeIndex }) => {
   const navItems = [
@@ -14,8 +16,11 @@ const Navbar = ({ activeIndex }) => {
 
   return (
     <nav className="bg-transparent p-4">
-      <div className="flex justify-between">
-        <img src="logo.svg" alt="" className="w-[50px] ml-5"/>
+      <div className="flex justify-between items-center">
+        {/* Logo */}
+        <img src="logo.svg" alt="Logo" className="w-[50px] ml-5" />
+
+        {/* Navigation Links */}
         <ul className="flex justify-center space-x-[60px] pt-3">
           {navItems.map((item, index) => (
             <li key={index}>
@@ -30,15 +35,37 @@ const Navbar = ({ activeIndex }) => {
             </li>
           ))}
         </ul>
-        <img src="/assets/user.png" alt="" className="w-[30px] h-[28px] mt-[15px] mr-5"/>
+
+        {/* User Profile Sheet */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="w-[30px] h-[28px] mt-[15px] mr-5">
+              <img src="/assets/user.png" alt="User" className="w-full h-full" />
+            </button>
+          </SheetTrigger>
+          <SheetContent className="bg-a_bg p-4 flex flex-col justify-between items-start font-inria">
+            <div className="font-inria">
+              <h2 className="text-[35px] text-text_green mb-4">Profile</h2>
+              <div className="text-start font-inria">
+                <p className="text-lg font-medium">John Doe</p>
+              </div>
+            </div>
+            <Button
+              className="w-[100px] mb-10 bg-red-500 text-a_bg text-[18px] self-center"
+              onClick={() => navigate("/logout")}
+            >
+              Logout
+            </Button>
+          </SheetContent>
+        </Sheet>
       </div>
-      <Divider/>
+      <Divider />
     </nav>
   );
-}
-
-Navbar.propTypes = {
-    activeIndex: PropTypes.number.isRequired,
 };
 
-export default Navbar
+Navbar.propTypes = {
+  activeIndex: PropTypes.number,
+};
+
+export default Navbar;
