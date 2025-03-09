@@ -1,11 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import api from "../api"; // Import the API instance
+import api from "../api";
+import { ThreeDot } from "react-loading-indicators";
 
 const SmartScan = () => {
     const fileInputRef = useRef(null);
     const [image, setImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [translatedText, setTranslatedText] = useState("");
+    const [boxedImage, setBoxedImage] = useState(null);
+    
+    // Reference for the bottom element to scroll to
+    const bottomRef = useRef(null);
 
     const handleButtonClick = () => {
         fileInputRef.current.click();
@@ -18,32 +25,37 @@ const SmartScan = () => {
             reader.onloadend = () => {
                 setImage(reader.result);
             };
-            setImageFile(file); // Save the actual file for sending to backend
+            setImageFile(file);
             reader.readAsDataURL(file);
         }
+        setBoxedImage(null);
     };
 
     const handleTranslate = async () => {
         if (!imageFile) return;
 
+        setLoading(true);
         const formData = new FormData();
         formData.append("image", imageFile);
 
         try {
-            const response = await api.post("/api/scan", formData);
-
-            if (response.status === 200) {
-                console.log("Translation result:", response.data);
-                alert("Translation successful! Check the console for result.");
-            } else {
-                console.error("Translation failed:", response.statusText);
-                alert("Translation failed. Please try again.");
-            }
+            const response = await api.post("/api/scan/", formData);
+            setTranslatedText(response.data.translated_text);
+            setBoxedImage(response.data.boxed_image);
         } catch (error) {
             console.error("Error sending image:", error);
             alert("An error occurred. Please try again later.");
+        } finally {
+            setLoading(false);
         }
     };
+
+    // Auto scroll to the bottom whenever an image is uploaded or the image changes
+    useEffect(() => {
+        if (image) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [image]); // Depend on 'image' so the effect runs when the image is updated
 
     return (
         <div className="bg-a_bg flex flex-col h-screen">
@@ -71,22 +83,49 @@ const SmartScan = () => {
                 <img className="w-12" src="/assets/camera.png" alt="Camera Icon" />
             </button>
             {image && (
-                <div className="mt-10 flex items-center justify-around bg-a_bg pb-10 pt-10">
-                    <div className="w-[500px]">
-                        <img src={image} alt="Uploaded" className="w-[500px] rounded-2xl shadow-lg self-center" />
+                <div className="mt-10 flex justify-around bg-a_bg pb-[100px] pt-10">
+                    <div className="w-[500px] flex flex-col">
+                        <div className="font-inria text-[30px] mb-10 self-center text-text_green">
+                            Original Image
+                        </div>
+                        <img src={image} alt="Uploaded" className="w-[500px] rounded-2xl shadow-lg self-center border-2 border-black" />
                     </div>
-                    {/* Divider */}
-                    <div className="border-l-2 border-gray-500 mx-5 h-[calc(100vh-160px)]"></div>
+                    <div className="border-l-2 border-gray-500 mx-5 h-full"></div>
                     <div className="w-[500px] flex justify-center">
-                        <button 
-                            className="font-inria border-2 border-black rounded-xl px-6 text-xl h-14 mr-20"
-                            onClick={handleTranslate}
-                        >
-                            Translate
-                        </button>
+                        {loading ? (
+                            <div className="self-center">
+                                <ThreeDot variant="pulsate" color="#3D8D7A" size="medium" text="" textColor=""/>
+                            </div>
+                        ) : boxedImage ? (
+                            <div className="text-center">
+                                <p className="font-inria text-[30px] mb-10 self-center text-text_green">
+                                    Translation
+                                </p>
+                                <img 
+                                    src={boxedImage} 
+                                    alt="Boxed Image" 
+                                    className="rounded-2xl shadow-lg mb-5 border-2 border-black" 
+                                />
+                                <div className="font-inria text-[20px] mt-10 text-start">
+                                    {translatedText.full}
+                                    {/* {Object.entries(translatedText).map(([key, value]) => (
+                                        <p key={key} className="font-inria text-xl">{`${key}: ${value}`}</p>
+                                    ))} */}
+                                </div>
+                            </div>
+                        ) : (
+                            <button 
+                                className="font-inria border-2 border-black rounded-xl px-6 text-xl h-14 self-center"
+                                onClick={handleTranslate}
+                            >
+                                Translate
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
+            {/* This div will act as the scroll target */}
+            <div ref={bottomRef}></div>
         </div>
     );
 };
