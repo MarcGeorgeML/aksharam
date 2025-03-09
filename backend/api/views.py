@@ -3,10 +3,10 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import Letters, WordCategory, Word
 import base64
+from io import BytesIO
 import cv2
 import numpy as np
 import os
-from PIL import Image
 import torch
 from torchvision import transforms
 from .ml_model.architecture import ConvNet
@@ -19,6 +19,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.files.base import ContentFile
+from PIL import Image, ImageDraw, ImageFont
+# from ocr_model.nllb_translator import translate_malayalam_to_english
+from transformers import pipeline
+from surya.recognition import RecognitionPredictor
+from surya.detection import DetectionPredictor
+import base64
 
 # Create your views here.
 
@@ -115,6 +122,101 @@ def get_all_letters(request):
         return Response(serializer.data, status=status.HTTP_200_OK)  
     except Letters.DoesNotExist:
         return Response({"message": "No letters found."}, status=status.HTTP_404_NOT_FOUND)
+    
+
+def extract_malayalam_text(image_file):
+    original_image = Image.open(image_file)
+    
+    langs = ["ml"]
+    
+    recognition_predictor = RecognitionPredictor()
+    detection_predictor = DetectionPredictor()
+    
+    predictions = recognition_predictor([original_image], [langs], detection_predictor)
+    
+    text_lines = predictions[0].text_lines
+    
+    extracted_text = "\n".join([line.text for line in text_lines])
+    
+    draw_image = original_image.copy()
+    draw = ImageDraw.Draw(draw_image)
+
+    try:
+        font = ImageFont.load_default()
+    except Exception as e:
+        print(f"Could not load default font: {e}")
+        font = None
+
+    for line in text_lines:
+        polygon = line.polygon
+        draw.polygon([(p[0], p[1]) for p in polygon], outline='red', width=3)
+        
+        # if font:
+        #     text = line.text
+        #     text_position = (int(polygon[0][0]), int(polygon[0][1] - 25))
+        #     # draw.text(text_position, text, fill='blue')
+
+    return extracted_text, draw_image
+
+def translate_malayalam_to_english(text):
+    # Load the translation pipeline
+    print("Loading translator...")
+    translator = pipeline("translation", model="facebook/nllb-200-distilled-1.3B")
+    print("loaded translator")
+    translations = {}
+    
+    if '\\n' in text:
+        processed_text = text.replace('\\n', '\n')
+    else:
+        processed_text = text
+    
+    full_text_for_translation = processed_text.replace('\n', ' ')
+    full_result = translator(full_text_for_translation, src_lang="mal_Mlym", tgt_lang="eng_Latn")
+    translations['full'] = full_result[0]['translation_text']
+    
+    lines = processed_text.split('\n')
+    lines = [line for line in lines if line.strip()]
+    
+    for i, line in enumerate(lines):
+        if line.strip():  # Skip empty lines
+            line_result = translator(line, src_lang="mal_Mlym", tgt_lang="eng_Latn")
+            translations[line] = line_result[0]['translation_text']
+    print("translation done")
+    return translations
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def scan_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        image_file = request.FILES['image']
+
+        try:
+            # Assuming extract_malayalam_text returns a tuple (malayalam_text, boxed_image)
+            malayalam_text, boxed_image = extract_malayalam_text(image_file)
+            print("got extracted text:", malayalam_text)
+            
+            # Translate the text to English
+            translated_text = translate_malayalam_to_english(malayalam_text)
+            print("Translated text:", translated_text)
+
+            # Convert boxed image to base64
+            image_buffer = BytesIO()
+            boxed_image.save(image_buffer, format="JPEG")
+            image_buffer.seek(0)  # Important to seek to the start of the image buffer
+            image_base64 = base64.b64encode(image_buffer.read()).decode('utf-8')
+
+            response_data = {
+                'translated_text': translated_text,
+                'boxed_image': f'data:image/jpeg;base64,{image_base64}'
+            }
+            return JsonResponse(response_data)
+        
+        except Exception as e:
+            print("Error during image processing:", e)
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 
 @api_view(['GET', 'POST'])
