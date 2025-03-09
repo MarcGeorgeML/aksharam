@@ -18,7 +18,9 @@ const Navbar = ({ activeIndex }) => {
     <nav className="bg-transparent p-4">
       <div className="flex justify-between items-center">
         {/* Logo */}
-        <img src="logo.svg" alt="Logo" className="w-[50px] ml-5" />
+        <button className="w-[50px] ml-5" onClick={() => {navigate("/")}}>
+          <img src="logo.svg" alt="Logo"  />
+        </button>
 
         {/* Navigation Links */}
         <ul className="flex justify-center space-x-[60px] pt-3">

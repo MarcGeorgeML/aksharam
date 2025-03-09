@@ -43,7 +43,11 @@ const Form = ({ route, method }) => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen bg-cover bg-no-repeat bg-[url('/assets/login_bg2.png')]">
+        <div className="flex items-center h-screen bg-cover bg-no-repeat bg-[url('/assets/login_bg2.png')]">
+            <button className="w-[50px] ml-[20px] mt-[10px] self-start" onClick={() => {navigate("/")}}>
+                <img src="/logo.svg" alt="" />
+            </button>
+            <div className="w-screen flex justify-center mr-[70px]">
             <div className="relative w-[450px] h-[400px]">
                 <motion.div
                     className="relative w-full h-full"
@@ -120,6 +124,7 @@ const Form = ({ route, method }) => {
                         </form>
                     </div>
                 </motion.div>
+            </div>
             </div>
         </div>
     );
