@@ -12,7 +12,7 @@ from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
 from django.contrib.auth.models import User
-from .serializers import LetterSerializer, UserSerializer, NoteSerializer
+from .serializers import LetterSerializer, UserSerializer, NoteSerializer, WordCategorySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 from rest_framework.decorators import api_view, permission_classes
@@ -122,6 +122,21 @@ def get_all_letters(request):
         return Response(serializer.data, status=status.HTTP_200_OK)  
     except Letters.DoesNotExist:
         return Response({"message": "No letters found."}, status=status.HTTP_404_NOT_FOUND)
+    
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def get_all_words(request):
+#     words = Word.objects.select_related('word_category').values(
+#         'id', 'word', 'english_version', 'word_translation', 'category_id', 'category'
+#     )  
+#     return JsonResponse({"Words": list(words)})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_words(request):
+    categories = WordCategory.objects.prefetch_related('words').all()
+    serializer = WordCategorySerializer(categories, many=True)
+    return Response({"Words": serializer.data})
     
 
 def extract_malayalam_text(image_file):

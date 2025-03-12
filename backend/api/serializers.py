@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Note, Letters, Example
+from .models import Note, Letters, Example, Word, WordCategory
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,6 +24,18 @@ class LetterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Letters
         fields = ['id', 'letter', 'examples']
+
+class WordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ['id', 'word', 'english_version', 'word_translation']
+
+class WordCategorySerializer(serializers.ModelSerializer):
+    words = WordSerializer(many=True)  # Use the related_name='words' from the ForeignKey
+
+    class Meta:
+        model = WordCategory
+        fields = ['id', 'category', 'words']
 
 
 class NoteSerializer(serializers.ModelSerializer):
