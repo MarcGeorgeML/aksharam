@@ -1,12 +1,29 @@
 // import { useState, useEffect } from "react";
-// import api from "../api";
 import Navbar from "../components/Navbar";
 import Divider from "../components/Divider";
 // import { useNavigate } from 'react-router-dom';
+// import api from "../api";
+
+// const fetchWords = async (setWordsData) => {
+//     try {
+//         const response = await api.get("/api/words/");
+//         console.log(response.data); // Log response for debugging
+//         setWordsData(response.data.Words);
+//     } catch (error) {
+//         console.error("Error fetching words:", error);
+//     }
+// };
+
 
 const Words = () => {
     // const [sentences, setsentence] = useState([]);
     // const navigate = useNavigate();
+    // const [wordsData, setWordsData] = useState([]);
+
+    // useEffect(() => {
+    //   fetchWords(setWordsData);
+    // }, []);
+
     const wordData = {
         1 : "അമ്മ",
         2 : "അച്ചൻ",
