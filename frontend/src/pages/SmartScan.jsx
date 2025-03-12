@@ -10,7 +10,7 @@ const SmartScan = () => {
     const [loading, setLoading] = useState(false);
     const [translatedText, setTranslatedText] = useState("");
     const [boxedImage, setBoxedImage] = useState(null);
-    
+
     // Reference for the bottom element to scroll to
     const bottomRef = useRef(null);
 
@@ -59,7 +59,7 @@ const SmartScan = () => {
 
     return (
         <div className="bg-a_bg flex flex-col h-screen">
-            <Navbar activeIndex={3} />
+            <Navbar activeIndex={4} />
             <div className="flex items-center justify-evenly mt-10">
                 <div className="flex flex-col font-inria">
                     <p className="text-a_sc text-[90px]">Smart Scan</p>
@@ -74,8 +74,8 @@ const SmartScan = () => {
                 className="hidden"
                 onChange={handleImageChange}
             />
-            <button 
-                onClick={handleButtonClick} 
+            <button
+                onClick={handleButtonClick}
                 className="bg-a_sc flex items-center justify-center gap-4 px-5 py-2 rounded-2xl w-[180px] self-center mt-10">
                 <p className="text-a_bg font-inria text-[20px]">
                     Capture
@@ -94,17 +94,17 @@ const SmartScan = () => {
                     <div className="w-[500px] flex justify-center">
                         {loading ? (
                             <div className="self-center">
-                                <ThreeDot variant="pulsate" color="#3D8D7A" size="medium" text="" textColor=""/>
+                                <ThreeDot variant="pulsate" color="#3D8D7A" size="medium" text="" textColor="" />
                             </div>
                         ) : boxedImage ? (
                             <div className="text-center">
                                 <p className="font-inria text-[30px] mb-10 self-center text-text_green">
                                     Translation
                                 </p>
-                                <img 
-                                    src={boxedImage} 
-                                    alt="Boxed Image" 
-                                    className="rounded-2xl shadow-lg mb-5 border-2 border-black" 
+                                <img
+                                    src={boxedImage}
+                                    alt="Boxed Image"
+                                    className="rounded-2xl shadow-lg mb-5 border-2 border-black"
                                 />
                                 <div className="font-inria text-[20px] mt-10 text-start">
                                     {translatedText.full}
@@ -114,7 +114,7 @@ const SmartScan = () => {
                                 </div>
                             </div>
                         ) : (
-                            <button 
+                            <button
                                 className="font-inria border-2 border-black rounded-xl px-6 text-xl h-14 self-center"
                                 onClick={handleTranslate}
                             >

@@ -13,6 +13,7 @@ import Letters from './pages/Letters';
 import LandingPage from './pages/LandingPage';
 import LetterDetails from './pages/LetterDetails';
 import SmartScan from './pages/SmartScan';
+import Words from './pages/Words';
 
 function RegisterAndLogout() {
   localStorage.clear()
@@ -38,6 +39,11 @@ function App() {
         <Route path='/letters/:id' element={
           <ProtectedRoute>
             <LetterDetails />
+          </ProtectedRoute>
+        } />
+        <Route path='/words' element={
+          <ProtectedRoute>
+            <Words />
           </ProtectedRoute>
         } />
         <Route path='/scan' element={

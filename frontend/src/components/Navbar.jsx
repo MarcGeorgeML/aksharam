@@ -9,6 +9,7 @@ const Navbar = ({ activeIndex }) => {
     { name: "Home", path: "/home" },
     { name: "Letters", path: "/letters" },
     { name: "Words", path: "/words" },
+    { name: "Sentences", path: "/sentences" },
     { name: "Smart Scan", path: "/scan" },
   ];
 
