@@ -24,12 +24,12 @@ const Navbar = ({ activeIndex }) => {
         </button>
 
         {/* Navigation Links */}
-        <ul className="flex justify-center space-x-[60px] pt-3">
+        <ul className="flex justify-center space-x-[60px] py-3">
           {navItems.map((item, index) => (
             <li key={index}>
               <button
                 onClick={() => navigate(item.path)}
-                className={`px-5 py-2 rounded-xl text-black text-[18px] font-inria transition ${
+                className={`px-5 py-2 rounded-xl text-black text-[14px] font-inria transition ${
                   index === activeIndex ? "border-2 border-gray-800" : ""
                 }`}
               >
@@ -42,7 +42,7 @@ const Navbar = ({ activeIndex }) => {
         {/* User Profile Sheet */}
         <Sheet>
           <SheetTrigger asChild>
-            <button className="w-[30px] h-[28px] mt-[15px] mr-5">
+            <button className="w-[30px] h-[28px] my-[15px] mr-5">
               <img src="/assets/user.png" alt="User" className="w-full h-full" />
             </button>
           </SheetTrigger>
