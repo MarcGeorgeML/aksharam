@@ -12,7 +12,7 @@ from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
 from django.contrib.auth.models import User
-from .serializers import LetterSerializer, UserSerializer, NoteSerializer, WordCategorySerializer
+from .serializers import LetterSerializer, UserSerializer, NoteSerializer, WordCategorySerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 from rest_framework.decorators import api_view, permission_classes
@@ -48,6 +48,14 @@ def get_word_categories(request):
 def test(request):
     return JsonResponse({"message": "Aksharam"})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_data(request):
+    user = request.user  
+    serializer = UserSerializer(user)
+    data = serializer.data
+    data.pop("password", None)
+    return Response(data)
 
 
 @api_view(["POST"])
