@@ -51,6 +51,29 @@ class Word(models.Model):
     def __str__(self):
         return self.word
     
+class Sentence(models.Model):
+    sentence = models.CharField(max_length=255)
+    english_version = models.CharField(max_length=255)
+    sentence_translation = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "sentences"
+
+    def __str__(self):
+        return self.sentence
+    
+class UserProgress(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    completed_letters = models.ManyToManyField(Letters, blank=True)
+    completed_words = models.ManyToManyField(Word, blank=True)
+    completed_sentences = models.ManyToManyField(Sentence, blank=True)
+
+    class Meta:
+        db_table = "user_progress"
+
+    def __str__(self):
+        return f"{self.user.username}'s Progress"
+    
 
 class Note(models.Model):
     title = models.CharField(max_length=100)

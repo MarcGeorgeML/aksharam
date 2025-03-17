@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Note, Letters, Example, Word, WordCategory
+from .models import Note, Letters, Example, Sentence, UserProgress, Word, WordCategory
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,6 +37,20 @@ class WordCategorySerializer(serializers.ModelSerializer):
         model = WordCategory
         fields = ['id', 'category', 'words']
 
+class SentenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sentence
+        fields = ['id', 'sentence', 'english_version', 'sentence_translation']
+
+class UserProgressSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')  # Show username instead of ID
+    completed_letters = LetterSerializer(many=True, read_only=True)
+    completed_words = WordSerializer(many=True, read_only=True)
+    completed_sentences = SentenceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = UserProgress
+        fields = ['user', 'completed_letters', 'completed_words', 'completed_sentences']
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Letters, WordCategory, Word
+from .models import Letters, Sentence, UserProgress, WordCategory, Word
 import base64
 from io import BytesIO
 import cv2
@@ -12,7 +12,7 @@ from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
 from django.contrib.auth.models import User
-from .serializers import LetterSerializer, UserSerializer, NoteSerializer, WordCategorySerializer, UserSerializer
+from .serializers import LetterSerializer, UserProgressSerializer, UserSerializer, NoteSerializer, WordCategorySerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 from rest_framework.decorators import api_view, permission_classes
@@ -281,7 +281,95 @@ def create_user(request):
     # If the username doesn't exist, proceed with the serializer
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        # Save the user object
+        user = serializer.save()
+
+        # Create a new UserProgress record for the new user
+        UserProgress.objects.create(user=user)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def get_user_progress(request):
+    
+#     user = request.user  # Get the logged-in user
+#     try:
+#         progress = UserProgress.objects.get(user=user)  # Fetch progress for the user
+#         serializer = UserProgressSerializer(progress)  # Serialize the data
+#         return Response(serializer.data)  # Send as JSON response
+#     except UserProgress.DoesNotExist:
+#         print("error")
+#         return Response({'message': 'No progress found for this user'}, status=404)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_progress(request):
+    user = request.user  # Get the logged-in user
+    try:
+        progress = UserProgress.objects.get(user=user)  # Fetch progress for the user
+        completed_letters = [letter.letter for letter in progress.completed_letters.all()]  # Get all completed letters
+        completed_words = [word.word for word in progress.completed_words.all()]  # Get all completed words
+        completed_sentences = [sentence.text for sentence in progress.completed_sentences.all()]  # Get all completed sentences
+        
+        return Response({
+            'completed_letters': completed_letters,
+            'completed_words': completed_words,
+            'completed_sentences': completed_sentences
+        })
+    except UserProgress.DoesNotExist:
+        return Response({'message': 'No progress found for this user'}, status=404)
+    
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_user_progress(request):
+    # Get the logged-in user
+    user = request.user
+
+    print(user)
+
+    try:
+        # Fetch the UserProgress instance for the current user
+        progress = UserProgress.objects.get(user=user)
+
+        # Check which field is being updated and update accordingly
+        if 'completed_letters' in request.data:
+            completed_letters = request.data.get('completed_letters', [])
+            for letter in completed_letters:
+                try:
+                    letter_instance = Letters.objects.get(letter=letter)
+                    progress.completed_letters.add(letter_instance)
+                except Letters.DoesNotExist:
+                    return Response({'message': f'Letter {letter} not found'}, status=400)
+
+        if 'completed_words' in request.data:
+            completed_words = request.data.get('completed_words', [])
+            for word in completed_words:
+                try:
+                    word_instance = Word.objects.get(word=word)
+                    progress.completed_words.add(word_instance)
+                except Word.DoesNotExist:
+                    return Response({'message': f'Word {word} not found'}, status=400)
+
+        if 'completed_sentences' in request.data:
+            completed_sentences = request.data.get('completed_sentences', [])
+            for sentence in completed_sentences:
+                try:
+                    sentence_instance = Sentence.objects.get(sentence=sentence)
+                    progress.completed_sentences.add(sentence_instance)
+                except Sentence.DoesNotExist:
+                    return Response({'message': f'Sentence {sentence} not found'}, status=400)
+
+        # Save the updated progress
+        progress.save()
+
+        # Serialize the updated UserProgress and return the response
+        serializer = UserProgressSerializer(progress)
+        return Response(serializer.data, status=200)
+
+    except UserProgress.DoesNotExist:
+        return Response({'message': 'No progress found for this user'}, status=404)

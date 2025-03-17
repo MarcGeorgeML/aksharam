@@ -11,6 +11,7 @@ urlpatterns = [
     path("words/", views.get_all_words, name="words"),
     path('scan/', views.scan_image, name='scan_image'),
     path('user/', views.get_user_data, name='get_user_data'),
-
+    path('get_user_progress/', views.get_user_progress, name='get_user_progress'),
+    path('update_user_progress/', views.update_user_progress, name='update_user_progress'),
 ]
 
