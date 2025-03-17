@@ -52,7 +52,7 @@ const Navbar = ({ activeIndex }) => {
     }, []);
 
     // Calculate percentage progress for letters and words
-    const completedLetters = userProgress?.completed_letters?.length || 0;
+    const completedLetters = 20 //userProgress?.completed_letters?.length || 0;
     const completedWords = userProgress?.completed_words?.length || 0;
 
     const letterProgress = (completedLetters / totalLetters) * 100;
@@ -121,11 +121,17 @@ const Navbar = ({ activeIndex }) => {
 
                             <div className="font-inria px-[10px]">
                                 {/* Letters Progress */}
-                                <h3 className="text-[20px] mb-2">Letters</h3>
+                                <div className="flex items-center mb-2 font-inria justify-between">
+                                    <h3 className="text-[20px]">Letters</h3>
+                                    <p>{Math.round(letterProgress)}%</p>
+                                </div>
                                 <Progress value={letterProgressBar} className=" mb-12" />
 
                                 {/* Words Progress */}
-                                <h3 className="text-[20px] mb-2">Words</h3>
+                                <div className="flex items-center mb-2 font-inria justify-between">
+                                    <h3 className="text-[20px]">Words</h3>
+                                    <p>{Math.round(wordProgress)}%</p>
+                                </div>
                                 <Progress value={wordProgressBar} className="mb-12" />
                             </div>
                         </div>
