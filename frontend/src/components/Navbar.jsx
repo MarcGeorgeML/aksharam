@@ -8,6 +8,7 @@ import api from "../api"; // Your Axios instance or API helper
 
 const Navbar = ({ activeIndex }) => {
     const [username, setUsername] = useState("");
+    const [userProgress, setUserProgress] = useState(null);
     const navigate = useNavigate();
 
     const navItems = [
@@ -18,18 +19,29 @@ const Navbar = ({ activeIndex }) => {
         { name: "Smart Scan", path: "/scan" },
     ];
 
-    // Fetch user data on component mount
+    // Fetch user data and progress on component mount
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const response = await api.get("/api/user/");
-                setUsername(response.data.username); // Set the username
+                setUsername(response.data.username);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
 
+        const fetchUserProgress = async () => {
+            try {
+                const response = await api.get("/api/get_user_progress/");
+                setUserProgress(response.data);
+                console.log("User Progress:", response.data); // Log progress data
+            } catch (error) {
+                console.error("Error fetching user progress:", error);
+            }
+        };
+
         fetchUserData();
+        fetchUserProgress();
     }, []);
 
     return (
