@@ -5,11 +5,18 @@ import Divider from "./Divider";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import api from "../api"; // Your Axios instance or API helper
+import { Progress } from "@/components/ui/progress"; // Import the Progress component from ShadCN
 
 const Navbar = ({ activeIndex }) => {
     const [username, setUsername] = useState("");
     const [userProgress, setUserProgress] = useState(null);
+    const [sheetOpen, setSheetOpen] = useState(false); // Track if sheet is opened
+    const [letterProgressBar, setLetterProgressBar] = useState(0);
+    const [wordProgressBar, setWordProgressBar] = useState(0);
     const navigate = useNavigate();
+
+    const totalLetters = 49;
+    const totalWords = 129;
 
     const navItems = [
         { name: "Home", path: "/home" },
@@ -44,6 +51,33 @@ const Navbar = ({ activeIndex }) => {
         fetchUserProgress();
     }, []);
 
+    // Calculate percentage progress for letters and words
+    const completedLetters = userProgress?.completed_letters?.length || 0;
+    const completedWords = userProgress?.completed_words?.length || 0;
+
+    const letterProgress = (completedLetters / totalLetters) * 100;
+    const wordProgress = (completedWords / totalWords) * 100;
+
+    // Animate progress bar only when sheet is opened
+    useEffect(() => {
+        let timer1, timer2;
+
+        if (sheetOpen) {
+            // Start animation to actual progress values
+            timer1 = setTimeout(() => setLetterProgressBar(letterProgress), 500);
+            timer2 = setTimeout(() => setWordProgressBar(wordProgress), 500);
+        } else {
+            // Reset progress bar when sheet is closed
+            setLetterProgressBar(0);
+            setWordProgressBar(0);
+        }
+
+        return () => {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+        };
+    }, [sheetOpen, letterProgress, wordProgress]);
+
     return (
         <nav className="bg-transparent p-4">
             <div className="flex justify-between items-center">
@@ -69,21 +103,33 @@ const Navbar = ({ activeIndex }) => {
                 </ul>
 
                 {/* User Profile Sheet */}
-                <Sheet>
+                <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                     <SheetTrigger asChild>
                         <button className="w-[30px] h-[28px] my-[15px] mr-5">
                             <img src="/assets/user.png" alt="User" className="w-full h-full" />
                         </button>
                     </SheetTrigger>
                     <SheetContent className="bg-a_bg p-4 flex flex-col justify-between items-start font-inria">
-                        <div className="font-inria">
-                            <h2 className="text-[35px] text-text_green mb-4">Profile</h2>
+                        <div className="font-inria w-full">
+                            <h2 className="text-[25px] text-text_green mb-4">Profile</h2>
                             <div className="text-start font-inria">
-                                <p className="text-lg font-medium">
+                                <p className="text-[30px] font-medium">
                                     {username ? username : "Loading..."}
                                 </p>
                             </div>
+                            <p className="text-[23px] text-text_green mb-4 mt-10">Progress : </p>
+
+                            <div className="font-inria px-[10px]">
+                                {/* Letters Progress */}
+                                <h3 className="text-[20px] mb-2">Letters</h3>
+                                <Progress value={letterProgressBar} className=" mb-12" />
+
+                                {/* Words Progress */}
+                                <h3 className="text-[20px] mb-2">Words</h3>
+                                <Progress value={wordProgressBar} className="mb-12" />
+                            </div>
                         </div>
+
                         <Button
                             className="w-[100px] mb-10 bg-red-500 text-a_bg text-[18px] self-center"
                             onClick={() => navigate("/logout")}
