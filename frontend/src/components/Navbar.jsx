@@ -52,7 +52,7 @@ const Navbar = ({ activeIndex }) => {
     }, []);
 
     // Calculate percentage progress for letters and words
-    const completedLetters = 20 //userProgress?.completed_letters?.length || 0;
+    const completedLetters = userProgress?.completed_letters?.length || 0;
     const completedWords = userProgress?.completed_words?.length || 0;
 
     const letterProgress = (completedLetters / totalLetters) * 100;
