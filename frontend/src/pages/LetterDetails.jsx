@@ -81,7 +81,7 @@ const LetterDetails = () => {
   const checkUserProgress = async () => {
     try {
       const res = await api.get("/api/get_user_progress/"); // Endpoint to fetch user progress
-      const completedLetters = res.data.completed_letters; // Assuming response contains completed letters
+      const completedLetters = res.data.completed_letters; 
 
       if (completedLetters.includes(letter.letter)) {
         setVerified(true); // Set verified to true if letter is completed
@@ -117,7 +117,6 @@ const LetterDetails = () => {
         });
 
         // Update user progress with the completed letter
-        // Assuming you're updating just the completed letter for now
         await api.patch("/api/update_user_progress/", {
           completed_letters: [letter.letter], // Send the completed letter to the backend
         });
