@@ -92,7 +92,7 @@ const Navbar = ({ activeIndex }) => {
                         <li key={index}>
                             <button
                                 onClick={() => navigate(item.path)}
-                                className={`px-5 py-2 rounded-xl text-black text-[14px] font-inria transition ${
+                                className={`px-5 py-2 rounded-xl text-black text-[14px] font-inria transition hover:font-bold transition-all ${
                                     index === activeIndex ? "border-2 border-gray-800" : ""
                                 }`}
                             >

@@ -6,6 +6,7 @@ import api from "../api";
 
 const Words = () => {
     const [words, setWords] = useState(null);
+    const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,6 +26,18 @@ const Words = () => {
 
     const handleClick = (word) => {
         navigate(`/words/${word.id}`, { state: { word } });
+    };
+
+    const handleNextCategory = () => {
+        if (words && currentCategoryIndex < words.length - 1) {
+            setCurrentCategoryIndex(currentCategoryIndex + 1);
+        }
+    };
+
+    const handlePrevCategory = () => {
+        if (currentCategoryIndex > 0) {
+            setCurrentCategoryIndex(currentCategoryIndex - 1);
+        }
     };
 
     return (
@@ -49,32 +62,47 @@ const Words = () => {
                 <Divider />
             </div>
 
-            <div className="flex flex-col items-center font-inria">
-                <p className="text-text_green my-[50px] text-[50px] font-bold">Relationships</p>
-                <div className="flex flex-wrap gap-16 justify-center px-5">
-                <div className="flex flex-wrap gap-16 justify-center px-5">
-                    {words ? (
-                        words.map((item) => (
-                            <div key={item.id}>
-                                <h3>{item.category}</h3>
-                                {item.words.map((wordObject, index) => ( 
-                                    <p key={index} onClick={() => handleClick(wordObject)}>
-                                        {wordObject.word} {/* Access word property */}
-                                    </p>
-                                ))}
-                            </div>
-                        ))
-                    ) : (
-                        <div>Loading...</div>
-                    )}
+            {words ? (
+                <div className="flex flex-col items-center font-inria">
+                    <p className="text-text_green my-[50px] text-[50px] font-bold">
+                        {words[currentCategoryIndex].category}
+                    </p>
+                    <div className="flex flex-wrap gap-16 justify-center px-5">
+                        {words[currentCategoryIndex].words.map((wordObject, index) => (
+                            <button
+                                key={index}
+                                className="bg-transparent px-6 py-10 rounded-xl font-arima text-[30px] border-[3px] w-[300px] border-black text-black hover:shadow-lg hover:font-bold transition-all"
+                                onClick={() => handleClick(wordObject)}
+                            >
+                                {wordObject.word}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="flex mt-10 gap-5">
+                        <button 
+                            className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg" 
+                            onClick={handlePrevCategory} 
+                            disabled={currentCategoryIndex === 0}
+                        >
+                            Previous
+                        </button>
+                        <button 
+                            className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg" 
+                            onClick={handleNextCategory} 
+                            disabled={currentCategoryIndex === words.length - 1}
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
-                </div>
-            </div>
+            ) : (
+                <div className="text-center text-xl font-bold">Loading...</div>
+            )}
 
             <div className="px-5">
                 <Divider />
             </div>
-            </div>
+        </div>
     );
 };
 

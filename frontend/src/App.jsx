@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Letters from './pages/Letters';
 import LandingPage from './pages/LandingPage';
 import LetterDetails from './pages/LetterDetails';
+import WordDetails from './pages/WordDetails';
 import SmartScan from './pages/SmartScan';
 import Words from './pages/Words';
 
@@ -44,6 +45,11 @@ function App() {
         <Route path='/words' element={
           <ProtectedRoute>
             <Words />
+          </ProtectedRoute>
+        } />
+        <Route path='/words/:id' element={
+          <ProtectedRoute>
+            <WordDetails />
           </ProtectedRoute>
         } />
         <Route path='/scan' element={

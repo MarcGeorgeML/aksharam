@@ -57,7 +57,7 @@ const Letters = () => {
           {letters.map((item) => (
             <button
               key={item.id}
-              className={`bg-transparent px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] w-[150px] border-black 
+              className={`bg-transparent px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] w-[150px] border-black hover:shadow-lg hover:font-bold transition-all
                 ${completedLetters.includes(item.letter) ? "text-a_sc" : "text-black"}`}  // Gray if verified
               onClick={() => handleClick(item)}
             >
