@@ -12,19 +12,17 @@ const Letters = () => {
     getLetters();
   }, []);
 
-  const getLetters = () => {
-    api
-      .get("/api/letters/")
-      .then((res) => res.data)
-      .then((data) => {
-        setLetters(data);
-        console.log(data);
-      })
-      .catch((err) => alert(err));
+  const getLetters = async () => {
+    try {
+      const res = await api.get("/api/letters/");
+      setLetters(res.data);
+    } catch (error) {
+      console.error("Error fetching letters:", error);
+    }
   };
 
-  const handleClick = (letter) => {
-    navigate(`/letters/${letter.id}`, { state: { letter } });
+  const handleClick = (id) => {
+    navigate(`/letters/${id}`);   // Navigate with ID in the URL
   };
 
   return (
@@ -51,7 +49,7 @@ const Letters = () => {
             <button
               key={item.id}
               className="bg-transparent text-black px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] border-black w-[150px]"
-              onClick={() => handleClick(item)} 
+              onClick={() => handleClick(item.id)}  // Navigate with ID
             >
               {item.letter}
             </button>
