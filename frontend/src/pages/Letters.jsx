@@ -6,23 +6,32 @@ import { useNavigate } from 'react-router-dom';
 
 const Letters = () => {
   const [letters, setLetters] = useState([]);
+  const [completedLetters, setCompletedLetters] = useState([]);  // Track verified letters
   const navigate = useNavigate();
 
   useEffect(() => {
     getLetters();
+    getUserProgress();  // Fetch progress
   }, []);
 
-  const getLetters = async () => {
-    try {
-      const res = await api.get("/api/letters/");
-      setLetters(res.data);
-    } catch (error) {
-      console.error("Error fetching letters:", error);
-    }
+  // Fetch all letters
+  const getLetters = () => {
+    api
+      .get("/api/letters/")
+      .then((res) => setLetters(res.data))
+      .catch((err) => alert(err));
   };
 
-  const handleClick = (id) => {
-    navigate(`/letters/${id}`);   // Navigate with ID in the URL
+  // Fetch user's completed letters
+  const getUserProgress = () => {
+    api
+      .get("/api/get_user_progress/")
+      .then((res) => setCompletedLetters(res.data.completed_letters))
+      .catch((err) => console.error("Error fetching progress:", err));
+  };
+
+  const handleClick = (letter) => {
+    navigate(`/letters/${letter.id}`, { state: { letter } });
   };
 
   return (
@@ -48,8 +57,9 @@ const Letters = () => {
           {letters.map((item) => (
             <button
               key={item.id}
-              className="bg-transparent text-black px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] border-black w-[150px]"
-              onClick={() => handleClick(item.id)}  // Navigate with ID
+              className={`bg-transparent px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] w-[150px] border-black 
+                ${completedLetters.includes(item.letter) ? "text-a_sc" : "text-black"}`}  // Gray if verified
+              onClick={() => handleClick(item)}
             >
               {item.letter}
             </button>

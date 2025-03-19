@@ -15,35 +15,88 @@ const LetterDetails = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const [verified, setVerified] = useState(false); // Tracks verification status
 
-  useEffect(() => {
-    setVerified(false);
-    fetchLetters();
-    drawLetter();
-    checkUserProgress();
-  }, [id]);
-
-  if (!letter) {
-    return <NotFound />;
-  }
-
   // Fetch all letters for navigation
   const fetchLetters = async () => {
     try {
       const res = await api.get("/api/letters/");
       setLetters(res.data);
-
+  
       const currentLetter = res.data.find((l) => l.id === parseInt(id));
       if (currentLetter) {
         setLetter(currentLetter);
-        drawLetter(currentLetter);
+        drawLetter(currentLetter);  // Pass the letter explicitly
         checkUserProgress(currentLetter);
+        console.log(currentLetter)
       } else {
-        setLetter(null);  // Handle invalid ID
+        setLetter(null);
       }
     } catch (error) {
       console.error("Error fetching letters:", error);
     }
   };
+  
+  const drawLetter = (letterToDraw) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !letterToDraw) return;
+  
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+  
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+    const padding = 50;
+    const availableWidth = canvas.width - 2 * padding;
+    const availableHeight = canvas.height - 2 * padding;
+    const fontSize = Math.min(availableWidth, availableHeight) * 0.8;
+  
+    ctx.font = `${fontSize}px Arial`;
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+  
+    ctx.fillText(letterToDraw.letter, canvas.width / 2, canvas.height / 2);
+  };
+  
+
+  // Check user progress
+  const checkUserProgress = async () => {
+    if (!letter) return;
+    try {
+      const res = await api.get("/api/get_user_progress/");
+      const completedLetters = res.data.completed_letters;
+  
+      if (completedLetters.includes(letter.letter)) {
+        setVerified(true);
+      }
+      else {
+        setVerified(false);
+      }
+    } catch (error) {
+      console.error("Error fetching user progress:", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    const initialize = async () => {
+      await fetchLetters(); 
+    };
+  
+    initialize();
+  }, [id]);
+  
+  useEffect(() => {
+    if (letter) {
+      setVerified(false);
+      drawLetter(letter); 
+      checkUserProgress();
+    }
+  }, [letter]); 
+  
+
+  if (!letter) {
+    return <NotFound />;
+  }
   
   const handleNext = () => {
     const currentIndex = letters.findIndex((l) => l.id === parseInt(id));
@@ -97,43 +150,14 @@ const LetterDetails = () => {
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    setResponseMessage("");
-    drawLetter();
+  
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+    setResponseMessage(""); // Reset response message
+  
+    drawLetter(letter); // Redraw the letter after clearing
   };
+  
 
-  const drawLetter = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const padding = 50;
-
-    const availableWidth = canvas.width - 2 * padding;
-    const availableHeight = canvas.height - 2 * padding;
-
-    const fontSize = Math.min(availableWidth, availableHeight) * 0.8;
-
-    ctx.font = `${fontSize}px Arial`;
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.fillText(letter.letter, canvas.width / 2, canvas.height / 2);
-  };
-
-  // Check user progress
-  const checkUserProgress = async () => {
-    setVerified(false);
-    try {
-      const res = await api.get("/api/get_user_progress/");
-      const completedLetters = res.data.completed_letters;
-      if (completedLetters.includes(letter.letter)) {
-        setVerified(true);
-      }
-    } catch (error) {
-      console.error("Error fetching user progress:", error);
-    }
-  };
 
   const sendToBackend = async () => {
     const canvas = canvasRef.current;
@@ -188,7 +212,7 @@ const LetterDetails = () => {
           </button>
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-[200px] font-arima">{letter.letter}</h1>
-            <div className="border-2 border-black text-[35px] px-10 py-10 rounded-xl">
+            {letter.examples.length != 0 && <div className="border-2 border-black text-[28px] px-10 py-10 rounded-xl">
               <p className="font-inria mb-5">Examples</p>
               {letter.examples && letter.examples.map((example, index) => (
                 <div key={index}>
@@ -199,7 +223,7 @@ const LetterDetails = () => {
                   </p>
                 </div>
               ))}
-            </div>
+            </div>}
           </div>
           <div className='w-8'>
 
