@@ -12,7 +12,7 @@ from torchvision import transforms
 from .ml_model.architecture import ConvNet
 import pandas as pd
 from django.contrib.auth.models import User
-from .serializers import LetterSerializer, UserProgressSerializer, UserSerializer, NoteSerializer, WordCategorySerializer, UserSerializer
+from .serializers import LetterSerializer, SentenceSerializer, UserProgressSerializer, UserSerializer, NoteSerializer, WordCategorySerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 from rest_framework.decorators import api_view, permission_classes
@@ -145,7 +145,15 @@ def get_all_words(request):
     categories = WordCategory.objects.prefetch_related('words').all()
     serializer = WordCategorySerializer(categories, many=True)
     return Response({"Words": serializer.data})
-    
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_sentences(request):
+    sentences = Sentence.objects.all()
+    serializer = SentenceSerializer(sentences, many=True)
+    return Response({"Sentences": serializer.data})
+
 
 def extract_malayalam_text(image_file):
     original_image = Image.open(image_file)
