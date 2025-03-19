@@ -46,11 +46,11 @@ const Letters = () => {
       </div>
       <div className="flex flex-col items-center font-inria">
         <p className="text-text_green my-[50px] text-[35px]">Letters</p>
-        <div className="flex flex-wrap gap-16 justify-center px-5">
+        <div className="flex flex-wrap gap-16 justify-center px-[50px]">
           {letters.map((item) => (
             <button
               key={item.id}
-              className="bg-transparent text-black px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] border-black"
+              className="bg-transparent text-black px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] border-black w-[150px]"
               onClick={() => handleClick(item)} 
             >
               {item.letter}

@@ -11,18 +11,45 @@ const LetterDetails = () => {
   const navigate = useNavigate();
   const { letter } = location.state || {};
   const canvasRef = useRef(null);
+  const [letters, setLetters] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
   const [verified, setVerified] = useState(false); // Tracks verification status
 
-  // Check if the letter is already completed when the page loads
   useEffect(() => {
-    drawLetter();
-    checkUserProgress();  // Check progress every time the letter changes
+    setVerified(false);
+    if (letter) {
+      fetchLetters();
+      drawLetter();
+      checkUserProgress();
+    }
   }, [letter]);
 
   if (!letter) {
     return <NotFound />;
   }
+
+  // Fetch all letters for navigation
+  const fetchLetters = async () => {
+    try {
+      const res = await api.get("/api/letters/");
+      setLetters(res.data);
+    } catch (error) {
+      console.error("Error fetching letters:", error);
+    }
+  };
+
+  const handleNext = () => {
+    const currentIndex = letters.findIndex((l) => l.id === letter.id);
+    setVerified(false);
+  
+    if (currentIndex === -1 || currentIndex === letters.length - 1) {
+      navigate("/letters");  // Go back to main page if last letter
+    } else {
+      const nextLetter = letters[currentIndex + 1];
+      navigate(`/letters/${nextLetter.id}`, { state: { letter: nextLetter } });
+    }
+  };
+  
 
   // Drawing functionality
   const startDrawing = (e) => {
@@ -55,7 +82,7 @@ const LetterDetails = () => {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setResponseMessage("");
-    drawLetter();  // Re-render the letter after clearing
+    drawLetter();
   };
 
   const drawLetter = () => {
@@ -77,21 +104,20 @@ const LetterDetails = () => {
     ctx.fillText(letter.letter, canvas.width / 2, canvas.height / 2);
   };
 
-  // Check user progress on page load
+  // Check user progress
   const checkUserProgress = async () => {
+    setVerified(false);
     try {
-      const res = await api.get("/api/get_user_progress/"); // Endpoint to fetch user progress
-      const completedLetters = res.data.completed_letters; 
-
+      const res = await api.get("/api/get_user_progress/");
+      const completedLetters = res.data.completed_letters;
       if (completedLetters.includes(letter.letter)) {
-        setVerified(true); // Set verified to true if letter is completed
+        setVerified(true);
       }
     } catch (error) {
       console.error("Error fetching user progress:", error);
     }
   };
 
-  // Send the drawing to the backend
   const sendToBackend = async () => {
     const canvas = canvasRef.current;
 
@@ -108,21 +134,19 @@ const LetterDetails = () => {
 
     try {
       const res = await api.post("/api/testcanvas/", { image });
-      
-      // Check if the predicted label matches the drawn letter
+
       if (res.data.predicted_label === letter.letter) {
-        setVerified(true); // Mark letter as verified
+        setVerified(true);
         toast("Great Job !!", {
           className: "bg-blue-500 text-black border border-blue-700",
         });
 
-        // Update user progress with the completed letter
         await api.patch("/api/update_user_progress/", {
-          completed_letters: [letter.letter], // Send the completed letter to the backend
+          completed_letters: [letter.letter],
         });
       } else {
-        toast("Try Again :(", {
-          className: "bg-blue-500 text-black border-blue-700",
+        toast(`Try Again :( ${res.data.predicted_label}`, {
+          className: "bg-blue-500 text-black border border-blue-700",
         });
       }
     } catch (error) {
@@ -131,17 +155,20 @@ const LetterDetails = () => {
     }
   };
 
-
-  // Go back to the previous page
   const handleGoBack = () => {
     navigate(-1);
   };
 
   return (
     <div className="bg-a_bg h-screen flex flex-col px-10 py-8">
-      <button className="w-8 self-start" onClick={handleGoBack}>
-        <img src="/assets/back.png" alt="Back" />
-      </button>
+      <div className='flex justify-between'>
+        <button className="w-8 self-start" onClick={handleGoBack}>
+          <img src="/assets/back.png" alt="Back" />
+        </button>
+        <button className="w-8 self-start" onClick={handleNext}>
+          <img src="/assets/back.png" alt="Next" className="-scale-x-100" />
+        </button>
+      </div>
       <div className="flex flex-row justify-between items-center w-full">
         {/* Left Block */}
         <div className="flex flex-col justify-center items-center flex-1">
