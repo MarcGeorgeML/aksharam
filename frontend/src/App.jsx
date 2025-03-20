@@ -15,6 +15,8 @@ import LetterDetails from './pages/LetterDetails';
 import WordDetails from './pages/WordDetails';
 import SmartScan from './pages/SmartScan';
 import Words from './pages/Words';
+import Sentences from './pages/Sentences';
+
 
 function RegisterAndLogout() {
   localStorage.clear()
@@ -50,6 +52,11 @@ function App() {
         <Route path='/words/:id' element={
           <ProtectedRoute>
             <WordDetails />
+          </ProtectedRoute>
+        } />
+        <Route path='/sentences' element={
+          <ProtectedRoute>
+            <Sentences />
           </ProtectedRoute>
         } />
         <Route path='/scan' element={
