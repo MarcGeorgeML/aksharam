@@ -55,18 +55,18 @@ const Letters = () => {
     <div className="bg-a_bg pb-20">
       <Navbar activeIndex={1} />
       <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
-        <div className="flex flex-col gap-5 pl-[40px]">
+        <div className="flex flex-col gap-5 pl-[40px] mt-[23px]">
           <p className="font-inria">Malayalam<br />Letters</p>
           <p className="font-arima">മലയാളം<br />അക്ഷരങ്ങൾ</p>
           <p className="text-black font-inria text-[20px]">Master Malayalam script with <br /> interactive writing, AI-powered <br /> feedback, and real-world examples!</p>
         </div>
-          <button className="w-32 font-inria self-end mb-20 text-[20px] text-a_bg py-3 bg-a_sc rounded-3xl ml-[90px]">
+          <button className="w-32 font-inria self-end mb-[56px] text-[20px] text-a_bg py-3 bg-a_sc rounded-3xl ml-[90px]">
             <p>Start</p>
           </button>
         <img src="/assets/letter.png" alt="letter" className="w-[600px]" />
       </div>
 
-      <div className="px-5">
+      <div className="px-5 mt-[36px]">
         <Divider />
       </div>
 
