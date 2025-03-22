@@ -78,15 +78,16 @@ const Sentences = () => {
       <div className="flex flex-col items-center font-inria">
         <p className="text-text_green my-[50px] text-[35px]">Sentences</p>
         <div className="flex flex-col gap-6 px-[50px] w-full max-w-[800px]">
-        {displayedSentences.map((item) => (
-        <button
-            key={item.id}
-            className={`bg-transparent px-6 py-4 rounded-xl font-arima text-[30px] border-[3px] border-black hover:shadow-lg hover: transition-all text-left w-full
-            ${completedSentences.includes(item.id) ? "text-a_sc" : "text-black"}`}
-            onClick={() => handleClick(item)}>
-            {item.sentence}
-        </button>
-        ))}
+          {displayedSentences.map((item) => (
+            <button
+              key={item.sentence}
+              className={`bg-transparent px-6 py-4 rounded-xl font-arima text-[30px] border-[3px] border-black hover:shadow-lg transition-all text-left w-full 
+                ${completedSentences.includes(item.sentence) ? "text-a_sc border-black" : "text-black border-black"}`}
+              onClick={() => handleClick(item)}
+            >
+              {item.sentence}
+            </button>
+          ))}
         </div>
 
         <div className="flex mt-[80px] gap-5">
