@@ -11,3 +11,6 @@ backend/backend/__pycache__
 backend/api/migrations/__pycache__
 backend/api/ml_model/__pycache__
 todo
+frontend/src/pages/SentenceDetails.jsx
+frontend/src/pages/Sentences.jsx
+

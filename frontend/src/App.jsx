@@ -16,6 +16,8 @@ import WordDetails from './pages/WordDetails';
 import SmartScan from './pages/SmartScan';
 import Words from './pages/Words';
 import Sentences from './pages/Sentences';
+import SentenceDetails from './pages/SentenceDetails';
+
 
 
 function RegisterAndLogout() {
@@ -57,6 +59,11 @@ function App() {
         <Route path='/sentences' element={
           <ProtectedRoute>
             <Sentences />
+          </ProtectedRoute>
+        } />
+          <Route path='/sentences/:id' element={
+          <ProtectedRoute>
+            <SentenceDetails />
           </ProtectedRoute>
         } />
         <Route path='/scan' element={

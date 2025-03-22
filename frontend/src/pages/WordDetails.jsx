@@ -18,6 +18,7 @@ const WordDetails = () => {
     const fetchWords = async () => {
       try {
         const res = await api.get("/api/words/");
+        console.log(res.data)
         const allCategories = res.data.Words || [];
         setCategories(allCategories);
 
@@ -47,6 +48,7 @@ const WordDetails = () => {
   const checkUserProgress = async (currentWord) => {
     try {
       const res = await api.get("/api/get_user_progress/");
+      console.log(res.data)
       const completedWords = res.data.completed_words || [];
       setVerified(completedWords.includes(currentWord.word));
     } catch (error) {
@@ -99,7 +101,7 @@ const WordDetails = () => {
   };
 
   return (
-    <div className="bg-[#F7F8E8] h-screen flex flex-col justify-center items-center text-center relative">
+    <div className="bg-a_bg h-screen flex flex-col px-10 py-8 h-screen flex flex-col justify-center items-center text-center relative">
       {/* Close Button */}
       <button onClick={() => navigate("/words")} className="absolute top-6 left-6 w-6">
         <img
@@ -122,31 +124,43 @@ const WordDetails = () => {
       </h2>
 
       {/* Word + Translation */}
-      <div className="flex justify-center items-center text-center w-full max-w-[80%]">
-        <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[30px] text-[100px]">
-          {word.word}
-        </h1>
-        <h1 className="text-[100px] font-serif font-normal text-gray-700 mx-1">:</h1>
-        <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[30px] text-[100px] text-gray-700">
-          {word.word_translation}
-        </h1>
+      <div className="flex flex-col justify-center items-center text-center w-full max-w-[80%] mt-[50px]">
+        <div className="flex justify-center items-center">
+          <div className="flex flex-col items-end pr-[10px]">
+            <h1 className="font-inria font-normal text-right whitespace-nowrap text-[100px]">
+              {word.word}
+            </h1>
+          </div>
+          <h1 className="text-[100px] font-serif font-normal text-gray-700 mx-1">:</h1>
+          <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[60px] text-[100px] text-gray-700">
+            {word.word_translation}
+          </h1>
+        </div>
+        
+        {/* English Version Aligned to Word */}
+        <div className="flex flex-col justify-center items-center text-center">
+            <h3 className="font-inria font-normal whitespace-nowrap text-[30px] text-gray-400">
+              {word.english_version}
+            </h3>
+        </div>
       </div>
 
-      {/* Completed Button */}
-      <div className="pt-[90px] relative w-60 h-[60px] mx-auto">
+      {/* Push Completed Button Further Down */}
+      <div className="pt-[80px] relative w-60 h-[60px] mx-auto">
         {!verified ? (
           <button
             onClick={markAsCompleted}
             className="w-full font-inria text-[30px] text-a_bg py-3 bg-a_sc rounded-3xl transition-transform duration-200 hover:scale-105"
           >
-            Completed
+            Complete
           </button>
         ) : (
-          <div className="flex justify-center items-center w-full h-full">
+          <div className="flex justify-center items-center w-full h-full pt-10">
             <img src="/assets/verified.png" alt="Verified" className="w-20 h-20" />
           </div>
         )}
       </div>
+
 
       {/* Right Arrow Button */}
       <button

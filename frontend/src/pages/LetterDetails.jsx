@@ -207,7 +207,7 @@ const LetterDetails = () => {
       <div className="flex flex-row justify-between items-center w-full">
         {/* Left Block */}
         <div className='flex  flex-1 justify-between items-center '> 
-          <button className="w-8 self-center transition-transform duration-200 hover:scale-110" onClick={handlePrev}>
+          <button className="w-8 self-center " onClick={handlePrev}>
             <img src="/assets/back.png" alt="Back" />
           </button>
           <div className="flex flex-col justify-center items-center">
