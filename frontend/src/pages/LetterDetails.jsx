@@ -14,6 +14,7 @@ const LetterDetails = () => {
   const [letters, setLetters] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
   const [verified, setVerified] = useState(false); // Tracks verification status
+  const [loading, setLoading] = useState(true); // Added loading state
 
   // Fetch all letters for navigation
   const fetchLetters = async () => {
@@ -32,6 +33,8 @@ const LetterDetails = () => {
       }
     } catch (error) {
       console.error("Error fetching letters:", error);
+    } finally {
+      setLoading(false); // Stop loading after fetching
     }
   };
   
@@ -92,7 +95,10 @@ const LetterDetails = () => {
       checkUserProgress();
     }
   }, [letter]); 
-  
+
+  if (loading) {
+    return <div className="text-center text-xl font-bold">Loading...</div>;
+  }
 
   if (!letter) {
     return <NotFound />;

@@ -60,8 +60,6 @@ const Words = () => {
       <div className="px-5 mt-[50px]">
         <Divider />
       </div>
-
-      {categories.length > 0 ? (
         <div className="flex flex-col items-center font-inria">
           <p className="text-text_green my-[50px] text-[35px]">
             {currentCategory.category || "Category"}
@@ -96,9 +94,6 @@ const Words = () => {
             </button>
           </div>
         </div>
-      ) : (
-        <div className="text-center text-xl font-bold">Loading...</div>
-      )}
 
       <div className="px-5">
         <Divider />
