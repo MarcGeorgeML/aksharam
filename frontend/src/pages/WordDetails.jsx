@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../api";
@@ -104,7 +103,7 @@ const WordDetails = () => {
   
 
   return (
-    <div className="bg-a_bg h-screen flex flex-col px-10 py-8 h-screen flex flex-col justify-center items-center text-center relative">
+    <div className="bg-a_bg h-screen flex flex-col px-10 py-8 justify-center items-center text-center relative">
       {/* Close Button */}
       <button onClick={() => navigate("/words")} className="absolute top-6 left-6 w-6">
         <img
