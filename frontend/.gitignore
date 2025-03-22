@@ -25,3 +25,5 @@ dist-ssr
 
 
 .env
+Sentence.jsx
+SentenceDetail.jsx
