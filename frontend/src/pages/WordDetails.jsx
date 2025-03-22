@@ -56,18 +56,20 @@ const WordDetails = () => {
     }
   };
 
-  // Mark word as completed and update progress in backend
   const markAsCompleted = async () => {
     try {
       await api.patch("/api/update_user_progress/", { completed_words: [word.word] });
       setVerified(true);
-      toast("Well Done! Click the next arrow to continue.", {
+      toast("Well Done! Moving to the next word...", {
         className: "bg-green-500 text-white border border-green-700",
       });
+  
+      // Move to the next word after a short delay
+      setTimeout(() => handleNavigation("next"), 1000);
     } catch (error) {
       console.error("Error verifying word:", error);
     }
-  };
+  };  
 
   if (loading) return <div className="text-center text-xl font-bold">Loading...</div>;
   if (!word) return <NotFound />;
