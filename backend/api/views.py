@@ -321,7 +321,7 @@ def get_user_progress(request):
         progress = UserProgress.objects.get(user=user)  # Fetch progress for the user
         completed_letters = [letter.letter for letter in progress.completed_letters.all()]  # Get all completed letters
         completed_words = [word.word for word in progress.completed_words.all()]  # Get all completed words
-        completed_sentences = [sentence.text for sentence in progress.completed_sentences.all()]  # Get all completed sentences
+        completed_sentences = [sentence.sentence for sentence in progress.completed_sentences.all()]  # Get all completed sentences
         
         return Response({
             'completed_letters': completed_letters,
