@@ -63,7 +63,7 @@ const Letters = () => {
           <button className="w-32 font-inria self-end mb-[56px] text-[20px] text-a_bg py-3 bg-a_sc rounded-3xl ml-[90px]">
             <p>Start</p>
           </button>
-        <img src="/assets/letter.png" alt="letter" className="w-[600px]" />
+          <img src="/assets/letter.png" alt="letter" className="w-[600px] inline-block" />
       </div>
 
       <div className="px-5 mt-[36px]">
@@ -85,20 +85,21 @@ const Letters = () => {
           ))}
         </div>
         <div className="flex mt-10 gap-5">
-          <button 
-            className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg" 
-            onClick={handlePrevPage} 
-            disabled={currentPage === 0}
+        <button 
+          className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg transition-transform duration-200 hover:scale-105 disabled:opacity-50"
+          onClick={handlePrevPage} 
+          disabled={currentPage === 0}
           >
-            Previous
-          </button>
-          <button 
-            className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg" 
-            onClick={handleNextPage} 
-            disabled={(currentPage + 1) * lettersPerPage >= letters.length}
-          >
-            Next
-          </button>
+          Previous
+        </button>
+        <button 
+          className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg transition-transform duration-200 hover:scale-105 disabled:opacity-50"
+          onClick={handleNextPage} 
+          disabled={(currentPage + 1) * lettersPerPage >= letters.length}
+        >
+          Next
+        </button>
+
         </div>
       </div>
     </div>

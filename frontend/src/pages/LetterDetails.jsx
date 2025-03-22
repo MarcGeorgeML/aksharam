@@ -200,14 +200,14 @@ const LetterDetails = () => {
     <div className="bg-a_bg h-screen flex flex-col px-10 py-8">
       <div className='flex justify-between'>
         
-        <button className="w-6 self-start" onClick={() => {navigate('/letters')}}>
+        <button className="w-6 self-start transition-transform duration-200 hover:scale-110" onClick={() => {navigate('/letters')}}>
           <img src="/assets/close.png" alt="Next" className="-scale-x-100" />
         </button>
       </div>
       <div className="flex flex-row justify-between items-center w-full">
         {/* Left Block */}
-        <div className='flex  flex-1 justify-between items-center'> 
-          <button className="w-8 self-center" onClick={handlePrev}>
+        <div className='flex  flex-1 justify-between items-center '> 
+          <button className="w-8 self-center transition-transform duration-200 hover:scale-110" onClick={handlePrev}>
             <img src="/assets/back.png" alt="Back" />
           </button>
           <div className="flex flex-col justify-center items-center">
@@ -252,11 +252,11 @@ const LetterDetails = () => {
                 onMouseUp={stopDrawing}
                 onMouseLeave={stopDrawing}
               />
-              <button className="font-inria self-end text-lg" onClick={clearCanvas}>
+              <button className="font-inria self-end text-lg transition-transform duration-200 hover:scale-110" onClick={clearCanvas}>
                 Clear
               </button>
               <button
-                className="bg-a_sc w-[100px] text-[25px] rounded-xl text-a_bg font-inria px-2 py-2 mt-8"
+                className="bg-a_sc w-[100px] text-[25px] rounded-xl text-a_bg font-inria px-2 py-2 mt-8 transition-transform duration-200 hover:scale-110"
                 onClick={sendToBackend}
               >
                 Verify
@@ -265,8 +265,8 @@ const LetterDetails = () => {
             </div>
             <Toaster richColors unstyled />
           </div>
-          <button className="w-8 self-center" onClick={handleNext}>
-            <img src="/assets/back.png" alt="Back" className="-scale-x-100" />
+          <button className="w-8 self-center transition-transform duration-200 hover:scale-110" onClick={handleNext}>
+            <img src="/assets/back.png" alt="Back" className="-scale-x-100 " />
           </button>
         </div>
       </div>

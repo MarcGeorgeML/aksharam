@@ -49,7 +49,7 @@ function App() {
             <Words />
           </ProtectedRoute>
         } />
-        <Route path='/words/:id' element={
+        <Route path='/words/:categoryId/:wordId' element={
           <ProtectedRoute>
             <WordDetails />
           </ProtectedRoute>
