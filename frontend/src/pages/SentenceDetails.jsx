@@ -103,22 +103,22 @@ const SentenceDetails = () => {
         <h1 className="font-inria font-normal text-[60px] leading-snug break-words text-center">
           {sentence.sentence}
         </h1>
-        <h3 className="font-inria font-normal text-[30px] text-gray-400 mt-3 leading-tight break-words text-center">
+        <h3 className="font-inria font-normal text-[20px] text-gray-400 mt-3 mb-[5px] leading-tight break-words text-center">
           {sentence.english_version}
         </h3>
-        <h1 className="font-inria font-normal text-[55px] text-gray-700 leading-snug break-words text-center">
+        <h1 className="font-inria font-normal text-[45px] text-gray-700 leading-snug break-words text-center">
           {sentence.sentence_translation}
         </h1>
       </div>
 
-      <div className="pt-[80px] relative w-60 h-[60px] mx-auto">
+      <div className="pt-[30px] relative w-60 h-[60px] mx-auto">
         {!verified ? (
           <button onClick={verifySentence} className="w-full font-inria text-[30px] text-a_bg py-3 bg-a_sc rounded-3xl transition-transform duration-200 hover:scale-105">
             Complete
           </button>
         ) : (
-          <div className="flex justify-center items-center w-full h-full pt-10">
-            <img src="/assets/verified.png" alt="Verified" className="w-20 h-20" />
+          <div className="flex justify-center items-center w-full h-full pt-2">
+            <img src="/assets/verified.png" alt="Verified" className="w-[60px] h-[60px]" />
           </div>
         )}
       </div>
