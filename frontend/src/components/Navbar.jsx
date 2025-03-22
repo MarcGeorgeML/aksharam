@@ -13,11 +13,13 @@ const Navbar = () => {
     const [sheetOpen, setSheetOpen] = useState(false);
     const [letterProgressBar, setLetterProgressBar] = useState(0);
     const [wordProgressBar, setWordProgressBar] = useState(0);
+    const [sentenceProgressBar, setSentenceProgressBar] = useState(0);
     const navigate = useNavigate();
     const location = useLocation(); // Get current URL path
 
     const totalLetters = 49;
     const totalWords = 129;
+    const totalSentences = 49;
 
     const navItems = [
         { name: "Home", path: "/home" },
@@ -41,6 +43,7 @@ const Navbar = () => {
             try {
                 const response = await api.get("/api/get_user_progress/");
                 setUserProgress(response.data);
+                console.log(response.data)
             } catch (error) {
                 console.error("Error fetching user progress:", error);
             }
@@ -52,16 +55,20 @@ const Navbar = () => {
 
     const completedLetters = userProgress?.completed_letters?.length || 0;
     const completedWords = userProgress?.completed_words?.length || 0;
+    const completedSentences = userProgress?.completed_sentences?.length || 0;
 
+    
     const letterProgress = (completedLetters / totalLetters) * 100;
     const wordProgress = (completedWords / totalWords) * 100;
+    const sentenceProgress = (completedSentences / totalSentences) * 100;
 
     useEffect(() => {
-        let timer1, timer2;
+        let timer1, timer2, timer3;
 
         if (sheetOpen) {
             timer1 = setTimeout(() => setLetterProgressBar(letterProgress), 500);
             timer2 = setTimeout(() => setWordProgressBar(wordProgress), 500);
+            timer3 = setTimeout(() => setSentenceProgressBar(sentenceProgress), 500);
         } else {
             setLetterProgressBar(0);
             setWordProgressBar(0);
@@ -70,8 +77,9 @@ const Navbar = () => {
         return () => {
             clearTimeout(timer1);
             clearTimeout(timer2);
+            clearTimeout(timer3);
         };
-    }, [sheetOpen, letterProgress, wordProgress]);
+    }, [sheetOpen, letterProgress, wordProgress, sentenceProgress]);
 
     return (
         <nav className="bg-transparent p-4">
@@ -123,6 +131,12 @@ const Navbar = () => {
                                     <p>{Math.round(wordProgress)}%</p>
                                 </div>
                                 <Progress value={wordProgressBar} className="mb-12" />
+
+                                <div className="flex items-center mb-2 font-inria justify-between">
+                                    <h3 className="text-[20px]">Sentences</h3>
+                                    <p>{Math.round(sentenceProgress)}%</p>
+                                </div>
+                                <Progress value={sentenceProgressBar} className="mb-12" />
                             </div>
                         </div>
 
