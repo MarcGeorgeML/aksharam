@@ -12,7 +12,6 @@ const SentenceDetails = () => {
   const [sentence, setSentence] = useState(null);
   const [verified, setVerified] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [completedSentences, setCompletedSentences] = useState(new Set());
 
   useEffect(() => {
     const fetchSentences = async () => {
@@ -24,7 +23,7 @@ const SentenceDetails = () => {
         const currentSentence = sentenceList.find((s) => s.id === parseInt(id));
         setSentence(currentSentence || null);
 
-        if (currentSentence) checkUserProgress(currentSentence.id);
+        if (currentSentence) checkUserProgress(currentSentence);
       } catch (error) {
         console.error("Error fetching sentences:", error);
       } finally {
@@ -35,24 +34,38 @@ const SentenceDetails = () => {
     fetchSentences();
   }, [id]);
 
-  const checkUserProgress = (sentenceId) => {
-    setVerified(completedSentences.has(sentenceId)); // Check against local set
+  const checkUserProgress = async (currentSentence) => {
+    try {
+      const res = await api.get("/api/get_user_progress/");
+      const completedSentences = res.data.completed_sentences;
+
+      if (completedSentences.includes(currentSentence.sentence)) {
+        setVerified(true);
+      } else {
+        setVerified(false);
+      }
+    } catch (error) {
+      console.error("Error fetching user progress:", error);
+    }
   };
 
-  const verifySentence = () => {
+  const verifySentence = async () => {
     if (!sentence || verified) return;
 
-    setCompletedSentences((prev) => {
-      const updatedSet = new Set(prev);
-      updatedSet.add(sentence.id);
-      return updatedSet;
-    });
+    try {
+      await api.patch("/api/update_user_progress/", {
+        completed_sentences: [sentence.sentence],
+      });
 
-    setVerified(true);
+      setVerified(true);
+      toast("Well Done! Moving to the next sentence...", {
+        className: "bg-green-500 text-white border border-green-700",
+      });
 
-    toast("Well Done! Click the next arrow to continue.", {
-      className: "bg-green-500 text-white border border-green-700",
-    });
+      setTimeout(handleNext, 1500); // Auto-navigate after 1.5s
+    } catch (error) {
+      console.error("Error updating user progress:", error);
+    }
   };
 
   if (loading) return <div className="text-center text-xl font-bold">Loading...</div>;
@@ -114,7 +127,7 @@ const SentenceDetails = () => {
         <img src="/assets/back.png" alt="Next" className="w-14 -scale-x-100" />
       </button>
 
-      <Toaster richColors unstyled />
+      <Toaster richColors />
     </div>
   );
 };

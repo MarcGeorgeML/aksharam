@@ -119,7 +119,7 @@ const WordDetails = () => {
       {/* Left Arrow Button */}
       <button
         onClick={() => handleNavigation("prev")}
-        className="absolute left-6 top-1/2 transform -translate-y-1/2 w-8 transition-transform duration-200 hover:scale-110">
+        className="absolute left-6 top-1/2 transform -translate-y-1/2 w-8 transition-transform duration-200 hover: scale-110">
         <img src="/assets/back.png" alt="Back" className="w-14" />
       </button>
 
@@ -136,7 +136,7 @@ const WordDetails = () => {
               {word.word}
             </h1>
           </div>
-          <h1 className="text-[100px] font-serif font-normal text-gray-700 mx-1 pl-[50px] pr-[50px]">:</h1>
+          <h1 className="text-[70px] font-serif font-normal text-gray-700 mx-1 pl-[50px] pr-[50px]">:</h1>
           <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[60px] text-[50px] text-gray-700">
             {word.word_translation}
           </h1>
