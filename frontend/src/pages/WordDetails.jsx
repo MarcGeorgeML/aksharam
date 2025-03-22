@@ -75,10 +75,10 @@ const WordDetails = () => {
   const handleNavigation = (direction) => {
     const categoryIndex = categories.findIndex((c) => c.id === parseInt(categoryId));
     if (categoryIndex === -1) return;
-
+  
     const words = categories[categoryIndex].words;
     const wordIndex = words.findIndex((w) => w.id === parseInt(wordId));
-
+  
     if (direction === "next") {
       if (wordIndex < words.length - 1) {
         navigate(`/words/${categoryId}/${words[wordIndex + 1].id}`);
@@ -87,6 +87,8 @@ const WordDetails = () => {
         if (nextCategory.words.length > 0) {
           navigate(`/words/${nextCategory.id}/${nextCategory.words[0].id}`);
         }
+      } else {
+        navigate("/words"); // Redirect to /words if last word is reached
       }
     } else if (direction === "prev") {
       if (wordIndex > 0) {
@@ -99,6 +101,7 @@ const WordDetails = () => {
       }
     }
   };
+  
 
   return (
     <div className="bg-a_bg h-screen flex flex-col px-10 py-8 h-screen flex flex-col justify-center items-center text-center relative">
@@ -119,7 +122,7 @@ const WordDetails = () => {
       </button>
 
       {/* Category Name */}
-      <h2 className="font-arima absolute top-12 text-[70px] text-a_sc font-bold">
+      <h2 className="font-arima absolute top-12 text-[70px] text-a_sc">
         {categories.find((c) => c.id === parseInt(categoryId))?.category || "Category"}
       </h2>
 
@@ -127,12 +130,12 @@ const WordDetails = () => {
       <div className="flex flex-col justify-center items-center text-center w-full max-w-[80%] mt-[50px]">
         <div className="flex justify-center items-center">
           <div className="flex flex-col items-end pr-[10px]">
-            <h1 className="font-inria font-normal text-right whitespace-nowrap text-[100px]">
+            <h1 className="font-inria font-normal text-right whitespace-nowrap text-[70px]">
               {word.word}
             </h1>
           </div>
-          <h1 className="text-[100px] font-serif font-normal text-gray-700 mx-1">:</h1>
-          <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[60px] text-[100px] text-gray-700">
+          <h1 className="text-[100px] font-serif font-normal text-gray-700 mx-1 pl-[50px] pr-[50px]">:</h1>
+          <h1 className="font-inria font-normal text-right whitespace-nowrap pr-[60px] text-[50px] text-gray-700">
             {word.word_translation}
           </h1>
         </div>
