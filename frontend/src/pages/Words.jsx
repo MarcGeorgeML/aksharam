@@ -40,7 +40,7 @@ const Words = () => {
   };
 
   return (
-    <div className="bg-a_bg pb-20">
+    <div className="bg-a_bg pb-10">
       <Navbar activeIndex={2} />
       <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
         <div className="flex flex-col gap-5 pl-[40px] mt-[37px]">
@@ -77,7 +77,7 @@ const Words = () => {
               </button>
             ))}
           </div>
-          <div className="flex mt-10 gap-5">
+          <div className="flex mt-[120px] gap-5">
             <button
               className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg disabled:opacity-50 transition-transform duration-200 hover:scale-105"
               onClick={() => setCurrentCategoryIndex((prev) => prev - 1)}
@@ -94,10 +94,6 @@ const Words = () => {
             </button>
           </div>
         </div>
-
-      <div className="px-5">
-        <Divider />
-      </div>
     </div>
   );
 };

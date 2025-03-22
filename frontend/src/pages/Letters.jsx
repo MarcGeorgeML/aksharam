@@ -52,7 +52,7 @@ const Letters = () => {
   );
 
   return (
-    <div className="bg-a_bg pb-20">
+    <div className="bg-a_bg pb-10">
       <Navbar activeIndex={1} />
       <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
         <div className="flex flex-col gap-5 pl-[40px] mt-[23px]">
@@ -84,7 +84,7 @@ const Letters = () => {
             </button>
           ))}
         </div>
-        <div className="flex mt-10 gap-5">
+        <div className="flex mt-[120px] gap-5">
         <button 
           className="bg-a_sc text-white px-6 py-3 rounded-xl text-lg transition-transform duration-200 hover:scale-105 disabled:opacity-50"
           onClick={handlePrevPage} 
