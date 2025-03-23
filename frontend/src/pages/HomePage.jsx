@@ -88,7 +88,7 @@ const HomePage = () => {
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute text-text_transparent text-6xl font-bold" 
+            className="absolute text-text_trans text-6xl font-bold" 
             style={{
               left: p.position.x,
               top: p.position.y

@@ -15,7 +15,7 @@ export default {
         text_main: "#017056",
         a_sc: "#3D8D7A",
         a_sc2: "#BDDAD3",
-        text_transparent: "#F4F8E2",
+        text_trans: "#DBDFC8",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
