@@ -1,79 +1,33 @@
-import { useState, useEffect } from "react";
-import api from "../api";
-import Note from "../components/Note";
-import "../styles/Home.css";
-import { Link } from "react-router-dom";
-
-const HomePage = () => {
-  const [notes, setNotes] = useState([]);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-
-  useEffect(() => {
-    getNotes();
-  }, []);
-
-  const getNotes = () => {
-    api
-      .get("/api/notes/")
-      .then((res) => res.data)
-      .then((data) => {
-        setNotes(data);
-        console.log(data);
-      })
-      .catch((err) => alert(err));
-  };
-
-  const deleteNote = (id) => {
-    api.delete(`/api/notes/delete/${id}/`)
-      .then((res) => {
-        if (res.status === 204) alert("Note Deleted !");
-        else alert("Failed to delete note...");
-        getNotes();
-      })
-      .catch((error) => alert(error));
-  };
-
-  const createNote = (e) => {
-    e.preventDefault();
-    api.post("/api/notes/", { content, title }).then((res) => {
-      if (res.status === 201) alert("Note Created");
-      else alert("Failed to create note");
-      getNotes();
-    })
-      .catch((error) => alert(error));
-  };
-
+const App = () => {
   return (
-    <div>
-      <div>
-        <h2>Notes</h2>
-        {notes.map((note) => <Note note={note} onDelete={deleteNote} key={note.id} />)}
+    <div className="relative w-full h-screen bg-a_bg">
+      {/* Background Letter "അ" with 17% opacity */}
+      <div 
+        className="absolute inset-0 z-[-1] flex justify-center items-center"
+        style={{ 
+          fontSize: '400px', 
+          fontWeight: 'bold', 
+          color: 'black', 
+          opacity: 0.17 
+        }}
+      >
+        അ
       </div>
-      <h2>Create a Note</h2>
-      <form onSubmit={createNote}>
-        <label htmlFor="title">Title : </label>
-        <br />
-        <input 
-          type="text" 
-          id="title" 
-          name="title" 
-          required 
-          onChange={(e) => setTitle(e.target.value)} 
-          value={title}
-        />
-        <label htmlFor="content">Content : </label>
-        <br />
-        <textarea name="content" id="content" required value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
 
-      <Link to="/logout">
-        <button>Logout</button>
-      </Link>
+      {/* Main Content Section */}
+      <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
+        <div className="flex flex-col gap-5 pl-[40px] mt-[23px]">
+          <p className="font-inria">Malayalam<br />Letters</p>
+          <p className="font-arima">മലയാളം<br />അക്ഷരങ്ങൾ</p>
+          <p className="text-black font-inria text-[20px]">Master Malayalam script with <br /> interactive writing, AI-powered <br /> feedback, and real-world examples!</p>
+        </div>
+        <button className="w-32 font-inria self-end mb-[56px] text-[20px] text-a_bg py-3 bg-a_sc rounded-3xl ml-[166.5px]">
+          <p>Start</p>
+        </button>
+        <img src="/assets/letter.png" alt="letter" className="w-[600px] inline-block" />
+      </div>
     </div>
   );
 };
 
-export default HomePage;
+export default App;

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import api from "../api";
 import { Progress } from "@/components/ui/progress";
 
-const Navbar = () => {
+const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default value of false
     const [username, setUsername] = useState("");
     const [userProgress, setUserProgress] = useState(null);
     const [sheetOpen, setSheetOpen] = useState(false);
@@ -15,7 +15,7 @@ const Navbar = () => {
     const [wordProgressBar, setWordProgressBar] = useState(0);
     const [sentenceProgressBar, setSentenceProgressBar] = useState(0);
     const navigate = useNavigate();
-    const location = useLocation(); // Get current URL path
+    const location = useLocation();
 
     const totalLetters = 49;
     const totalWords = 129;
@@ -43,7 +43,6 @@ const Navbar = () => {
             try {
                 const response = await api.get("/api/get_user_progress/");
                 setUserProgress(response.data);
-                console.log(response.data)
             } catch (error) {
                 console.error("Error fetching user progress:", error);
             }
@@ -57,7 +56,6 @@ const Navbar = () => {
     const completedWords = userProgress?.completed_words?.length || 0;
     const completedSentences = userProgress?.completed_sentences?.length || 0;
 
-    
     const letterProgress = (completedLetters / totalLetters) * 100;
     const wordProgress = (completedWords / totalWords) * 100;
     const sentenceProgress = (completedSentences / totalSentences) * 100;
@@ -82,7 +80,7 @@ const Navbar = () => {
     }, [sheetOpen, letterProgress, wordProgress, sentenceProgress]);
 
     return (
-        <nav className="bg-transparent p-4">
+        <nav className={`${isFixed ? 'fixed top-0 left-0 w-full z-10' : ''} bg-transparent px-4 pt-4`}>
             <div className="flex justify-between items-center">
                 <button className="w-[50px] ml-5" onClick={() => navigate("/")}>
                     <img src="logo.svg" alt="Logo" />
@@ -156,6 +154,7 @@ const Navbar = () => {
 
 Navbar.propTypes = {
     activeIndex: PropTypes.number,
+    isFixed: PropTypes.bool,  // Added this prop type validation
 };
 
 export default Navbar;

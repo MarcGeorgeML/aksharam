@@ -59,7 +59,7 @@ const SmartScan = () => {
 
     return (
         <div className="bg-a_bg flex flex-col h-screen">
-            <Navbar activeIndex={4} />
+            <Navbar activeIndex={4} isFixed={false}/>
             <div className="flex items-center justify-evenly mt-10">
                 <div className="flex flex-col font-inria">
                     <p className="text-a_sc text-[90px]">Smart Scan</p>

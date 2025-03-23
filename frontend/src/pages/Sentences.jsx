@@ -56,7 +56,7 @@ const Sentences = () => {
 
   return (
     <div className="bg-a_bg pb-10">
-      <Navbar activeIndex={3} />
+      <Navbar activeIndex={3}  isFixed={false} />
       <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
         <div className="flex flex-col gap-5 pl-[40px] mt-[37px]">
           <p className="font-inria">Malayalam<br />Sentences</p>
