@@ -218,7 +218,7 @@ const LetterDetails = () => {
           </button>
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-[200px] font-arima">{letter.letter}</h1>
-            {letter.examples.length != 0 && <div className="border-2 border-black text-[28px] px-10 py-10 rounded-xl">
+            {/* {letter.examples.length != 0 && <div className="border-2 border-black text-[28px] px-10 py-10 rounded-xl">
               <p className="font-inria mb-5">Examples</p>
               {letter.examples && letter.examples.map((example, index) => (
                 <div key={index}>
@@ -229,7 +229,7 @@ const LetterDetails = () => {
                   </p>
                 </div>
               ))}
-            </div>}
+            </div>} */}
           </div>
           <div className='w-8'>
 

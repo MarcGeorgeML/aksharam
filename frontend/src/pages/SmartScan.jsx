@@ -58,15 +58,51 @@ const SmartScan = () => {
     }, [image]); // Depend on 'image' so the effect runs when the image is updated
 
     return (
-        <div className="bg-a_bg flex flex-col h-screen">
+        <div className="bg-a_bg flex flex-col">
             <Navbar activeIndex={4} isFixed={false}/>
-            <div className="flex items-center justify-evenly mt-10">
+            <div className="relative h-[600px] w-full overflow-hidden mb-10">
+            <div 
+                className="absolute inset-0 bg-cover bg-center blur-lg pointer-events-none mb-10 opacity-50"
+                style={{ 
+                    backgroundImage: "url('/assets/scan_bg.png')",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    width: "500px", 
+                    height: "100%", 
+                    left: "50%",
+                    transform: "translateX(-50%)" 
+                }}
+            ></div>
+            <div className="relative z-10 flex flex-row justify-between items-center px-40 text-text_main text-[70px] h-full">
+                <div className="flex flex-col gap-20 pl-10 mt-6">
+                    <p className="font-inria">Smart<br />Scan</p>
+                    <p className="font-arima">സ്മാർട്ട്<br />സ്കാൻ</p>
+                </div>
+                
+                <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
+                    <p className="text-black font-inria text-[20px] border-2 border-black rounded-2xl px-10 py-16">
+                        Learn Malayalam <br />from Images <br /> with the help of AI
+                    </p>
+                    <button
+                        onClick={handleButtonClick}
+                        className="bg-text_main flex items-center justify-center gap-4 px-5 py-2 rounded-2xl w-[180px] self-center mt-10 mb-32">
+                        <p className="text-a_bg font-inria text-[20px]">
+                            Capture
+                        </p>
+                        <img className="w-12" src="/assets/camera.png" alt="Camera Icon" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+            <div className="px-5 mt-[36px]"></div>
+            {/* <div className="flex items-center justify-evenly mt-10">
                 <div className="flex flex-col font-inria">
                     <p className="text-a_sc text-[90px]">Smart Scan</p>
                     <p className="text-[25px]">Learn Malayalam from Images <br /> with the help of AI</p>
                 </div>
                 <img className="w-[400px] mr-8" src="/assets/scan.png" alt="Scan Illustration" />
-            </div>
+            </div> */}
             <input
                 type="file"
                 accept="image/*"
@@ -74,14 +110,7 @@ const SmartScan = () => {
                 className="hidden"
                 onChange={handleImageChange}
             />
-            <button
-                onClick={handleButtonClick}
-                className="bg-a_sc flex items-center justify-center gap-4 px-5 py-2 rounded-2xl w-[180px] self-center mt-10">
-                <p className="text-a_bg font-inria text-[20px]">
-                    Capture
-                </p>
-                <img className="w-12" src="/assets/camera.png" alt="Camera Icon" />
-            </button>
+            
             {image && (
                 <div className="mt-10 flex justify-around bg-a_bg pb-[100px] pt-10">
                     <div className="w-[500px] flex flex-col">
@@ -90,7 +119,7 @@ const SmartScan = () => {
                         </div>
                         <img src={image} alt="Uploaded" className="w-[500px] rounded-2xl shadow-lg self-center border-2 border-black" />
                     </div>
-                    <div className="border-l-2 border-gray-500 mx-5 h-full"></div>
+                    <div className="border-l-2 border-gray-500 mx-5 h-[600px]"></div>  
                     <div className="w-[500px] flex justify-center">
                         {loading ? (
                             <div className="self-center">
