@@ -104,7 +104,7 @@ const HomePage = () => {
 
       {/* Centered 2x2 Grid of Buttons */}
       <div className="flex flex-col justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 mt-16">
-        <p className="text-[30px] font-inria text-black mb-5 self-start pl-2">
+        <p className=" text-text_green text-[30px] font-inria text-black mb-5 self-start pl-2">
           Start Exploring!
         </p>
         <div className="grid grid-cols-2 gap-6 pb-20 pt-3">

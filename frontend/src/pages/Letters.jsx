@@ -69,7 +69,7 @@ const Letters = () => {
           </div>
           
           <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
-            <p className="text-black font-inria text-[20px] border-2 border-black rounded-2xl px-10 py-16">Master Malayalam script with <br /> interactive writing, AI-powered <br /> feedback, and real-world examples!</p>
+            <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Master Malayalam script with <br /> interactive writing, AI-powered <br /> feedback, and real-world examples!</p>
             <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32">
               <p>Start</p>
             </button>
