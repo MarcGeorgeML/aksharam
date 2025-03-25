@@ -58,7 +58,7 @@ const Words = () => {
               
               <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
                 <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Learn essential Malayalam <br /> words and sentences to improve<br /> your everyday conversations!</p>
-                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[37px]">
+                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[36px]">
                   <p>Start</p>
                 </button>
               </div>
@@ -69,7 +69,7 @@ const Words = () => {
         <Divider />
       </div>
         <div className="flex flex-col items-center font-inria">
-          <p className="text-text_green my-[50px] text-[35px]">
+          <p className="text-text_green my-[50px] text-[35px] font-bold">
             {currentCategory.category || "Category"}
           </p>
           <div className="flex flex-wrap gap-16 justify-center px-5">

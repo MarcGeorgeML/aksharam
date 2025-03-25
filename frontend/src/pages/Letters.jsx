@@ -81,7 +81,7 @@ const Letters = () => {
       </div>
 
       <div className="flex flex-col items-center font-inria">
-        <p className="text-text_green my-[50px] text-[35px]">Letters</p>
+        <p className="text-text_green my-[50px] text-[35px] font-bold">Letters</p>
         <div className="flex flex-wrap gap-16 justify-center px-[50px]">
           {displayedLetters.map((item) => (
             <button

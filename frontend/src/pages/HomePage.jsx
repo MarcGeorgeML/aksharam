@@ -8,7 +8,7 @@ const malayalamLetters = [
   "ഒ", "ക", "ഖ", "ഗ", "ഘ", "ങ", "ച", "ഛ", "ജ",
   "ഞ", "ട", "ഠ", "ഡ", "ഢ", "ണ", "ത", "ഥ", "ദ", "ധ", "ന",
   "പ", "ഫ", "ബ", "ഭ", "മ", "യ", "ര", "ല", "വ", "ശ", "ഷ",
-  "സ", "ഹ", "ള", "ഴ", "റ"
+  "സ", "ഹ", "ള", "ഴ", "റ",
 ];
 
 const getRandomPosition = () => ({
@@ -88,7 +88,7 @@ const HomePage = () => {
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute text-text_trans text-6xl font-bold" 
+            className="absolute text-text_trans text-8xl font-bold" 
             style={{
               left: p.position.x,
               top: p.position.y
@@ -104,12 +104,12 @@ const HomePage = () => {
 
       {/* Centered 2x2 Grid of Buttons */}
       <div className="flex flex-col justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 mt-16">
-        <p className=" text-text_green text-[30px] font-inria text-black mb-5 self-start pl-2">
+        <p className="text-text_green text-[35px] font-inria text-black mb-5 self-start pl-2 ml-[140px] font-bold">
           Start Exploring!
         </p>
         <div className="grid grid-cols-2 gap-6 pb-20 pt-3">
           {/* Button 1 */}
-          <button onClick={() => navigate("/letters")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+          <button onClick={() => navigate("/letters")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:scale-110 transition duration-300">
               <img
                 src="assets/home_letter.png"
                 alt=""
@@ -121,7 +121,7 @@ const HomePage = () => {
           </button>
 
           {/* Button 2 */}
-          <button onClick={() => navigate("/words")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+          <button onClick={() => navigate("/words")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:scale-110 transition duration-300">
             <img
                 src="assets/home_word.png"
                 alt=""
@@ -133,7 +133,7 @@ const HomePage = () => {
           </button>
 
           {/* Button 3 */}
-          <button onClick={() => navigate("/sentences")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+          <button onClick={() => navigate("/sentences")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:scale-110 transition duration-300">
               <img
                 src="assets/home_sentence.png"
                 alt=""
@@ -145,7 +145,7 @@ const HomePage = () => {
           </button>
 
           {/* Button 4 */}
-          <button onClick={() => navigate("/scan")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+          <button onClick={() => navigate("/scan")} className="group w-[250px] h-[200px] bg-a_bg border-[2px] border-black rounded-[20px] shadow-lg flex justify-center items-center relative overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:scale-110 transition duration-300">
               <img
                 src="assets/home_scan.png"
                 alt=""
