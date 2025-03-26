@@ -74,14 +74,14 @@ const SmartScan = () => {
                 }}
             ></div>
             <div className="relative z-10 flex flex-row justify-between items-center px-40 text-text_main text-[70px] h-full">
-                <div className="flex flex-col gap-20 pl-10 mt-6">
-                    <p className="font-inria">Smart<br />Scan</p>
-                    <p className="font-arima">സ്മാർട്ട്<br />സ്കാൻ</p>
+                <div className="flex flex-col gap-40 pl-10 mt-6">
+                    <p className="font-inria">Smart Scan</p>
+                    <p className="font-arima">സ്മാർട്ട് സ്കാൻ</p>
                 </div>
                 
                 <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
-                    <p className="text-black font-inria text-[20px] border-2 border-black rounded-2xl px-10 py-16">
-                        Learn Malayalam <br />from Images <br /> with the help of AI
+                    <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">
+                        Learn Malayalam from <br />  Images with the help of AI
                     </p>
                     <button
                         onClick={handleButtonClick}

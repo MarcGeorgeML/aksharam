@@ -56,8 +56,8 @@ const Letters = () => {
       <Navbar activeIndex={1} isFixed={false} />
       <div className="relative h-[600px] w-full overflow-hidden mb-20">
         <div 
-          className="absolute inset-0 flex justify-center items-center pointer-events-none blur-lg mb-10"
-          style={{ fontSize: '500px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
+          className="absolute inset-0 flex justify-center items-center pointer-events-none blur-lg mb-10 text-black opacity-20"
+          style={{ fontSize: '500px', fontWeight: 'bold'}}
         >
           അ
         </div>
