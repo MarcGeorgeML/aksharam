@@ -56,33 +56,41 @@ const Sentences = () => {
 
   return (
     <div className="bg-a_bg pb-10">
-      <Navbar activeIndex={3}  isFixed={false} />
-      <div className="flex flex-row justify-between items-center px-[100px] text-a_sc text-[60px]">
-        <div className="flex flex-col gap-5 pl-[40px] mt-[37px]">
-          <p className="font-inria">Malayalam<br />Sentences</p>
-          <p className="font-arima">മലയാളം<br />വാക്യങ്ങൾ</p>
-          <p className="text-black font-inria text-[20px]">
-            Learn basic Malayalam <br /> sentences to improve <br /> your everyday conversations!
-          </p>
-        </div>
-        <button className="w-32 font-inria self-end mb-[42px] text-[20px] text-a_bg py-3 bg-a_sc rounded-3xl ml-[207px]">
-          <p>Start</p>
-        </button>
-        <img src="/assets/amma.png" alt="A traditional representation of Amma" className="w-[600px] relative left-8" />
-      </div>
-
+          <Navbar activeIndex={1} isFixed={false} />
+          <div className="relative h-[600px] w-full overflow-hidden mb-20">
+            <div 
+              className="absolute inset-0 flex justify-center items-center pointer-events-none blur-lg mb-10"
+              style={{ fontSize: '500px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
+            >
+              അ
+            </div>
+            
+            <div className="relative z-10 flex flex-row justify-between items-center px-40 text-text_main text-[70px] h-full">
+              <div className="flex flex-col gap-20 pl-10 mt-6">
+                <p className="font-inria">Malayalam<br />Sentences</p>
+                <p className="font-arima">മലയാളം<br />വാക്യങ്ങൾ</p>
+              </div>
+              
+              <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
+                <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Learn basic Malayalam <br /> sentences to improve <br /> your everyday conversations!</p>
+                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[72px]">
+                  <p>Start</p>
+                </button>
+              </div>
+            </div>
+          </div>
       <div className="px-5 mt-[50px]">
         <Divider />
       </div>
 
       <div className="flex flex-col items-center font-inria">
-        <p className="text-text_green my-[50px] text-[35px]">Sentences</p>
+        <p className="text-text_green my-[50px] text-[35px] font-bold">Sentences</p>
         <div className="flex flex-col gap-6 px-[50px] w-full max-w-[800px]">
           {displayedSentences.map((item) => (
             <button
               key={item.sentence}
               className={`bg-transparent px-6 py-4 rounded-xl font-arima text-[30px] border-[3px] border-black hover:shadow-lg transition-all text-left w-full 
-                ${completedSentences.includes(item.sentence) ? "text-a_sc border-black" : "text-black border-black"}`}
+                ${completedSentences.includes(item.sentence) ? "a_sctext- border-black" : "text-black border-black"}`}
               onClick={() => handleClick(item)}
             >
               {item.sentence}
