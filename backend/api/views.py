@@ -26,6 +26,8 @@ from transformers import pipeline
 from surya.recognition import RecognitionPredictor
 from surya.detection import DetectionPredictor
 import base64
+from googletrans import Translator
+
 
 # Create your views here.
 
@@ -189,30 +191,61 @@ def extract_malayalam_text(image_file):
 
     return extracted_text, draw_image
 
+# def translate_malayalam_to_english(text):
+#     # Load the translation pipeline
+#     print("Loading translator...")
+#     translator = pipeline("translation", model="facebook/nllb-200-distilled-1.3B")
+#     print("loaded translator")
+#     translations = {}
+    
+#     if '\\n' in text:
+#         processed_text = text.replace('\\n', '\n')
+#     else:
+#         processed_text = text
+    
+#     full_text_for_translation = processed_text.replace('\n', ' ')
+#     full_result = translator(full_text_for_translation, src_lang="mal_Mlym", tgt_lang="eng_Latn")
+#     translations['full'] = full_result[0]['translation_text']
+    
+#     lines = processed_text.split('\n')
+#     lines = [line for line in lines if line.strip()]
+    
+#     for i, line in enumerate(lines):
+#         if line.strip():  # Skip empty lines
+#             line_result = translator(line, src_lang="mal_Mlym", tgt_lang="eng_Latn")
+#             translations[line] = line_result[0]['translation_text']
+#     print("translation done")
+#     return translations
+
 def translate_malayalam_to_english(text):
-    # Load the translation pipeline
-    print("Loading translator...")
-    translator = pipeline("translation", model="facebook/nllb-200-distilled-1.3B")
-    print("loaded translator")
+    print("Loading Google Translator...")
+    translator = Translator()
+    
     translations = {}
     
+    # Handle newline replacements
     if '\\n' in text:
         processed_text = text.replace('\\n', '\n')
     else:
         processed_text = text
-    
+
+    # Full text translation
     full_text_for_translation = processed_text.replace('\n', ' ')
-    full_result = translator(full_text_for_translation, src_lang="mal_Mlym", tgt_lang="eng_Latn")
-    translations['full'] = full_result[0]['translation_text']
     
+    # Translate the entire text
+    full_result = translator.translate(full_text_for_translation, src='ml', dest='en')
+    translations['full'] = full_result.text
+
+    # Translate line by line
     lines = processed_text.split('\n')
     lines = [line for line in lines if line.strip()]
     
-    for i, line in enumerate(lines):
-        if line.strip():  # Skip empty lines
-            line_result = translator(line, src_lang="mal_Mlym", tgt_lang="eng_Latn")
-            translations[line] = line_result[0]['translation_text']
-    print("translation done")
+    for line in lines:
+        if line.strip():
+            line_result = translator.translate(line, src='ml', dest='en')
+            translations[line] = line_result.text
+
+    print("Translation done")
     return translations
 
 @api_view(['POST'])
