@@ -59,10 +59,10 @@ const Sentences = () => {
           <Navbar activeIndex={1} isFixed={false} />
           <div className="relative h-[600px] w-full overflow-hidden mb-20">
             <div 
-              className="absolute inset-0 flex justify-center items-center pointer-events-none blur-lg mb-10"
-              style={{ fontSize: '500px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
+              className="absolute inset-0 flex justify-center items-center pointer-events-none blur-[12px] mb-10"
+              style={{ fontSize: '220px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
             >
-              അ
+              മലയാളം <br/> പഠിക്കാം
             </div>
             
             <div className="relative z-10 flex flex-row justify-between items-center px-40 text-text_main text-[70px] h-full">

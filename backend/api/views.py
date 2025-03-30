@@ -26,7 +26,7 @@ from transformers import pipeline
 from surya.recognition import RecognitionPredictor
 from surya.detection import DetectionPredictor
 import base64
-from googletrans import Translator
+from google.cloud import translate_v2 as translate
 
 
 # Create your views here.
@@ -218,11 +218,12 @@ def extract_malayalam_text(image_file):
 #     return translations
 
 def translate_malayalam_to_english(text):
-    print("Loading Google Translator...")
-    translator = Translator()
-    
+    # Initialize the Google Translate client
+    client = translate.Client()
+
+    # Prepare the translation dictionary
     translations = {}
-    
+
     # Handle newline replacements
     if '\\n' in text:
         processed_text = text.replace('\\n', '\n')
@@ -231,19 +232,19 @@ def translate_malayalam_to_english(text):
 
     # Full text translation
     full_text_for_translation = processed_text.replace('\n', ' ')
-    
+
     # Translate the entire text
-    full_result = translator.translate(full_text_for_translation, src='ml', dest='en')
-    translations['full'] = full_result.text
+    full_result = client.translate(full_text_for_translation, source_language='ml', target_language='en')
+    translations['full'] = full_result['translatedText']
 
     # Translate line by line
     lines = processed_text.split('\n')
     lines = [line for line in lines if line.strip()]
-    
+
     for line in lines:
         if line.strip():
-            line_result = translator.translate(line, src='ml', dest='en')
-            translations[line] = line_result.text
+            line_result = client.translate(line, source_language='ml', target_language='en')
+            translations[line] = line_result['translatedText']
 
     print("Translation done")
     return translations

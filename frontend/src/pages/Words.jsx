@@ -45,9 +45,9 @@ const Words = () => {
           <div className="relative h-[600px] w-full overflow-hidden mb-20">
             <div 
               className="absolute inset-0 flex justify-center items-center pointer-events-none blur-lg mb-10"
-              style={{ fontSize: '500px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
+              style={{ fontSize: '400px', fontWeight: 'bold', color: 'rgba(0, 0, 0, 0.2)' }}
             >
-              അ
+              അമ്മ
             </div>
             
             <div className="relative z-10 flex flex-row justify-between items-center px-40 text-text_main text-[70px] h-full">
