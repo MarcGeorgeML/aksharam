@@ -15,6 +15,8 @@ const LetterDetails = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const [verified, setVerified] = useState(false); // Tracks verification status
   const [loading, setLoading] = useState(true); // Added loading state
+  const audioRef = useRef(null)
+
 
   // Fetch all letters for navigation
   const fetchLetters = async () => {
@@ -202,6 +204,16 @@ const LetterDetails = () => {
     }
   };
 
+  const playAudio = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = 0;  // Reset the audio to the beginning
+      audio.play();           // Play the audio
+    }
+  };
+  
+
+
   return (
     <div className="bg-a_bg h-screen flex flex-col px-10 py-8">
       <div className='flex justify-between'>
@@ -218,6 +230,12 @@ const LetterDetails = () => {
           </button>
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-[200px] font-arima">{letter.letter}</h1>
+            <audio ref={audioRef} src={`/audio/${letter.letter}.mp3`} />
+            <div className="flex gap-4 mt-4 w-12">
+              <button onClick={playAudio}>
+                <img src="/assets/sound-waves.png" alt="" />
+              </button>
+            </div>
             {/* {letter.examples.length != 0 && <div className="border-2 border-black text-[28px] px-10 py-10 rounded-xl">
               <p className="font-inria mb-5">Examples</p>
               {letter.examples && letter.examples.map((example, index) => (
