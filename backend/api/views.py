@@ -33,10 +33,23 @@ from google.cloud import translate_v2 as translate
 
 
 csv_path = os.path.join(os.path.dirname(__file__), "ml_model", "label_2_letter.csv")
+csv_path_s = os.path.join(os.path.dirname(__file__), "ml_model", "label_2_symbol.csv")
+
 class_labels_df = pd.read_csv(csv_path)
+class_labels_df_s = pd.read_csv(csv_path_s)
+
 class_mapping = dict(zip(class_labels_df["Image Name"], class_labels_df["Class Label"]))
+class_mapping_s = dict(zip(class_labels_df_s["Image Name"], class_labels_df_s["Class Label"]))
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model.pth")
+MODEL_PATH_S = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model_symbols.pth")
+
+# csv_path = os.path.join(os.path.dirname(__file__), "ml_model", "label_2_letter2.csv")
+# class_labels_df = pd.read_csv(csv_path)
+# class_mapping = dict(zip(class_labels_df["Image Name"], class_labels_df["Class Label"]))
+
+# MODEL_PATH = os.path.join(os.path.dirname(__file__), "ml_model", "mal_model_chil.pth")
+
 
 def get_word_categories(request):
     words = Word.objects.select_related('word_category').values(
@@ -60,11 +73,84 @@ def get_user_data(request):
     return Response(data)
 
 
-@api_view(["POST"])
+# @api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+# def main_canvas(request):
+#     try:
+#         image_data = request.data.get("image", "")
+#         if not image_data.startswith("data:image/png;base64,"):
+#             print("Invalid image format")
+#             return JsonResponse({"message": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         print("Got image, decoding now...")
+        
+#         # Decode base64 image
+#         image_data = image_data.split(",")[1]
+#         image_bytes = base64.b64decode(image_data)
+#         image_array = np.frombuffer(image_bytes, dtype=np.uint8)
+        
+#         print("Image array shape:", image_array.shape)
+        
+#         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+#         if image is None:
+#             print("Error decoding image")
+#             return JsonResponse({"message": "Error decoding image"}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         print("Image successfully decoded")
+        
+#         # Convert BGR to RGB
+#         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#         image_pil = Image.fromarray(image_rgb)
+
+#         # Check PIL image
+#         if image_pil is None:
+#             print("Error converting to PIL Image")
+#             return JsonResponse({"message": "Error converting image"}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         print("Image successfully converted to PIL")
+        
+#         raw_transform = transforms.Compose([
+#             transforms.Resize((32, 32)),                    
+#             transforms.ToTensor(),                          
+#         ])
+
+#         # Load model with num_classes=6
+#         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#         model = ConvNet(num_classes=5).to(device)
+        
+#         print("Loading model...")
+#         model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+#         model.eval()
+#         print("Model loaded successfully")
+
+#         transformed_image = raw_transform(image_pil).unsqueeze(0).to(device)
+#         print("Image transformed and moved to device")
+
+#         # Run inference
+#         with torch.no_grad():
+#             output = model(transformed_image)
+#             _, predicted = torch.max(output, 1)
+#             predicted_class = predicted.item()
+        
+#         print("Predicted class:", predicted_class)
+        
+#         predicted_label = class_mapping.get(predicted_class, "Unknown")
+#         print("Predicted label:", predicted_label)
+
+#         return JsonResponse({"predicted_label": predicted_label}, status=status.HTTP_200_OK)
+
+#     except Exception as e:
+#         print("Error processing image:", str(e))
+#         return JsonResponse({"message": f"Error processing image: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@api_view(["POST"]) 
 @permission_classes([IsAuthenticated])
-def test_canvas(request):
+def main_canvas(request):
     try:
         image_data = request.data.get("image", "")
+        category = request.data.get("category", "main")  # Default to "main" if not provided
 
         if not image_data.startswith("data:image/png;base64,"):
             return JsonResponse({"message": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST)
@@ -77,10 +163,9 @@ def test_canvas(request):
         image_array = np.frombuffer(image_bytes, dtype=np.uint8)
         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
 
-        # convert BGR to RGB (if needed)
+        # Convert BGR to RGB (if needed)
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image_pil = Image.fromarray(image_rgb)
-
 
         if image_pil is None:
             return JsonResponse({"message": "Error decoding image"}, status=status.HTTP_400_BAD_REQUEST)
@@ -90,39 +175,67 @@ def test_canvas(request):
             transforms.ToTensor(),                          
         ])
 
+        print(category)
 
+        num = 49
+
+        # Determine model and class mapping based on category
+        if category == "symbol":
+            print("Using symbol model")
+            model_path = MODEL_PATH_S
+            print("model")
+
+            if not os.path.exists(MODEL_PATH_S):
+                raise FileNotFoundError(f"Error: Model file not found at {MODEL_PATH_S}")
+
+            if class_mapping_s is None:
+                raise ValueError("Error: class_mapping2 is None!")
+
+            print(f"Class Mapping 2 Keys: {list(class_mapping_s.keys())}")  # Debug
+            cm = class_mapping_s
+
+            num = 11
+
+        else :
+            print("Using main model")
+            model_path = MODEL_PATH
+
+            if not os.path.exists(MODEL_PATH):
+                raise FileNotFoundError(f"Error: Model file not found at {MODEL_PATH}")
+
+            if class_mapping is None:
+                raise ValueError("Error: class_mapping2 is None!")
+
+            print(f"Class Mapping 2 Keys: {list(class_mapping.keys())}")  # Debug
+
+            cm = class_mapping
+
+            num = 49
+        
         # Load the model
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model = ConvNet().to(device)
-        model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+        model = ConvNet(num_classes=num).to(device)
+        model.load_state_dict(torch.load(model_path, map_location=device))
         model.eval()
 
         transformed_image = raw_transform(image_pil)
-        transformed_image = transformed_image.unsqueeze(0)
+        transformed_image = transformed_image.unsqueeze(0).to(device)
 
-        # Move input to the same device as the model
-        transformed_image = transformed_image.to(device)
-
-
+        # Perform inference
         with torch.no_grad():
             output = model(transformed_image)
             _, predicted = torch.max(output, 1)
             predicted_class = predicted.item()
 
-        predicted_label = class_mapping.get(predicted_class, "Unknown")
-
+        predicted_label = cm.get(predicted_class, "Unknown")
 
         return JsonResponse({"predicted_label": predicted_label}, status=status.HTTP_200_OK)
-        # class_label = class_label[0] if len(class_label) > 0 else "Unknown"
-
-
-
-        # # Always return a response
-        # return JsonResponse({"Prediction": class_label}, status=status.HTTP_200_OK)
 
     except Exception as e:
         return JsonResponse({"message": f"Error processing image: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_all_letters(request):
