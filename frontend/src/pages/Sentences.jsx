@@ -90,7 +90,7 @@ const Sentences = () => {
             <button
               key={item.sentence}
               className={`bg-transparent px-6 py-4 rounded-xl font-arima text-[30px] border-[3px] border-black hover:shadow-lg transition-all text-left w-full 
-                ${completedSentences.includes(item.sentence) ? "a_sctext- border-black" : "text-black border-black"}`}
+                ${completedSentences.includes(item.sentence) ? "text-a_sc border-black" : "text-black border-black"}`}
               onClick={() => handleClick(item)}
             >
               {item.sentence}
