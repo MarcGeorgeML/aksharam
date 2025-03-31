@@ -1,0 +1,304 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inria Serif', serif;
+  background-color: #FBFFE8;
+}
+
+/* Landing Page Container */
+.landing-container {
+  position: relative;
+  height: 100vh;
+  background: url('/assets/malayalam collage.png') no-repeat center center/cover;
+  background-color: '#FBFFE8';
+}
+
+/* Logo (Top-Left with Fade-In Animation) */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: auto;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Center Content (Aksharam + Start Learning) */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Aksharam Text */
+.text-container {
+  font-size: 7rem; /* Increased Font Size */
+  font-weight: normal;
+  color: #3D8D7A; /* Given Color */
+}
+
+/* Sliding Animation for Aksharam */
+.animated-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideIn 0.5s forwards;
+}
+
+/* Keyframe for Sliding Effect */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Start Learning Button */
+.start-learning-button {
+  background-color: #3D8D7A;
+  color: white;
+  font-family: 'Inria Serif', serif;
+  font-size: 1.4rem;
+  padding: 12px 30px;
+  border: 2px solid #3D8D7A;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 50px;
+  display: block;
+}
+
+/* Hover Effect */
+.start-learning-button:hover {
+  background-color: whitesmoke;
+  color:#3D8D7A;
+}
+
+/* Login & Sign Up Button Container (Top-Right) */
+.button-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Login Button */
+.login-button {
+  background-color:#FBFFE8;
+  color: black;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border: 2px solid black;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+/* Sign Up Button */
+.signup-button {
+  background-color: #3D8D7A;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border: 2px solid #3D8D7A;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+/* Hover Effects for Login & Sign Up */
+.login-button:hover {
+  color: #005A45;
+  border-color: #005A45;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.signup-button:hover {
+  background-color: white;
+  color: #3D8D7A;
+}
+
+/* Divider Line (Black) */
+.divider-line {
+  width: 100%;
+  margin: 50px 0;
+  border: none;
+  border-top: 1px solid #3D8D7A; /* Black Line */
+}
+
+/* Sliding Frame Container - Updated */
+.sliding-frame-container {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 80px;
+  position: relative;
+}
+
+/* Removed old sliding-frame class and replaced with continuous slider */
+
+/* New container for infinite sliding */
+.infinite-slider-container {
+  display: flex;
+  width: max-content; /* Allows content to determine width */
+  animation: slideAnimation 20s linear infinite;
+  margin-top: 20px;
+}
+
+/* Individual Frame - Updated for continuous sliding */
+.frame-content {
+  width: 33.33%;
+  min-width: 300px;
+  height: 200px;
+  background-color: #FBFFE8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  border: 1.5px solid black;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 10px;
+}
+
+/* Animation for continuous sliding */
+@keyframes slideAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Moves the slides by the total width of the visible slides */
+    transform: translateX(calc(-300px * 3 - 60px)); /* 3 slides × width + margins */
+  }
+}
+
+/* Add a pause on hover effect */
+/* .infinite-slider-container:hover {
+  animation-play-state: paused;
+} */
+
+/* Frame Text */
+.frame-text {
+  font-family: 'Inria Serif', serif;
+  font-size: 1.8rem;
+  color: #3D8D7A;
+  margin-bottom: 10px;
+}
+
+/* Frame Icon */
+.frame-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Description Image */
+.description-image {
+  display: block;
+  max-width: 90%; /* Adjust size */
+  height: auto;
+  margin: 30px auto; /* Centering */
+  margin-top: 100px;
+  margin-bottom: 200px;
+}
+
+/* Section Title */
+.section-title {
+  font-family: 'Inria Serif', serif;
+  font-size: 4rem;
+  color: #3D8D7A;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Features Section */
+.features-container {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+.feature-card {
+  width: 300px;
+  background: #FBFFE8;
+  padding: 20px;
+  text-align: center;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  margin: 10px 0;
+  display: block;
+}
+
+.feature-card h3, .feature-card img, .feature-card p {
+  text-align: center;
+}
+
+/* Feature Card Heading Color */
+.feature-card h3 {
+  color: #3D8D7A;
+  font-family: 'Inria Serif', serif;
+  font-size: 1.5rem;
+}
+
+/* Feature Card Paragraph Style */
+.feature-card p {
+  font-family: 'Inria Serif', serif;
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Feature Card Animation */
+.motion-card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.motion-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
