@@ -8,7 +8,7 @@ const Letters = () => {
   const [letters, setLetters] = useState([]);
   const [completedLetters, setCompletedLetters] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const lettersPerPage = 10;
+  const lettersPerPage = 12;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,7 +83,9 @@ const Letters = () => {
       <div className="flex flex-col items-center font-inria">
         <p className="text-text_green my-[50px] text-[35px] font-bold">Letters</p>
         <div className="flex flex-wrap gap-16 justify-center px-[50px]">
-          {displayedLetters.map((item) => (
+        {displayedLetters
+          .filter((item) => !["ഋ", "൯", "ൺ", "ർ", "ൽ", "ൾ"].includes(item.letter))
+          .map((item) => (
             <button
               key={item.id}
               className={`bg-transparent px-4 py-2 rounded-xl font-arima text-[50px] border-[3px] w-[150px] border-black hover:shadow-lg hover:font-bold transition-all

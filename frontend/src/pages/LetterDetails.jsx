@@ -16,6 +16,8 @@ const LetterDetails = () => {
   const [verified, setVerified] = useState(false); // Tracks verification status
   const [loading, setLoading] = useState(true); // Added loading state
   const audioRef = useRef(null)
+  const symbols = ['്', 'ാ', 'ി', 'ീ', 'ു', 'ൂ', 'ൃ', 'െ', 'േ', 'ൗ', 'ം'];
+  const skippedIndices = [5, 49, 47, 48, 45, 46];
 
 
   // Fetch all letters for navigation
@@ -43,24 +45,38 @@ const LetterDetails = () => {
   const drawLetter = (letterToDraw) => {
     const canvas = canvasRef.current;
     if (!canvas || !letterToDraw) return;
-  
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-  
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
     const padding = 50;
     const availableWidth = canvas.width - 2 * padding;
     const availableHeight = canvas.height - 2 * padding;
-    const fontSize = Math.min(availableWidth, availableHeight) * 0.8;
-  
-    ctx.font = `${fontSize}px Arial`;
+
+    // Determine category and font size
+    const isE = ['ി', 'ീ'].includes(letterToDraw.letter);
+    const isU = letterToDraw.letter === '്';
+    const isSymbol = symbols.includes(letterToDraw.letter);
+    const isO = ['ു', 'ൂ', 'ൃ'].includes(letterToDraw.letter);
+
+    const fontSize = Math.min(availableWidth, availableHeight) * 
+        (isU ? 4 : isE ? 1.5 : isO ? 1.5 : isSymbol ? 1.8 : 1);
+
+    ctx.font = `${fontSize}px "Baloo Chettan 2", sans-serif`;
     ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-  
-    ctx.fillText(letterToDraw.letter, canvas.width / 2, canvas.height / 2);
-  };
+    ctx.textAlign = isE ? "left" : "center";
+    ctx.textBaseline = isU ? "top" : "middle";
+
+    const topPadding = fontSize * (isE ? 0.15 : 0.0);
+    const leftPadding = fontSize * (isU ? 0.12 : 0);
+
+    // Use Zero-Width Joiner to prevent the dotted circle for symbols
+    const cleanedLetter = isSymbol ? `\u200D${letterToDraw.letter}` : letterToDraw.letter;
+
+    ctx.fillText(cleanedLetter, canvas.width / 2 + leftPadding, canvas.height / 2 + topPadding);
+};
   
 
   // Check user progress
@@ -107,24 +123,46 @@ const LetterDetails = () => {
   }
   
   const handleNext = () => {
-    const currentIndex = letters.findIndex((l) => l.id === parseInt(id));
+    let currentIndex = letters.findIndex((l) => l.id === parseInt(id));
 
     if (currentIndex === -1 || currentIndex === letters.length - 1) {
       navigate("/letters");
+      return;
+    }
+
+    let nextIndex = currentIndex + 1;
+    
+    // Skip unwanted indices
+    while (nextIndex < letters.length && skippedIndices.includes(letters[nextIndex].id)) {
+        nextIndex++;
+    }
+
+    if (nextIndex < letters.length) {
+      navigate(`/letters/${letters[nextIndex].id}`);
     } else {
-      const nextLetter = letters[currentIndex + 1];
-      navigate(`/letters/${nextLetter.id}`);
+      navigate("/letters"); // Redirect if no valid next letter exists
     }
   };
 
   const handlePrev = () => {
-    const currentIndex = letters.findIndex((l) => l.id === parseInt(id));
+    let currentIndex = letters.findIndex((l) => l.id === parseInt(id));
 
-    if (currentIndex > 0) {
-      const prevLetter = letters[currentIndex - 1];
-      navigate(`/letters/${prevLetter.id}`);
-    } else {
+    if (currentIndex === -1 || currentIndex === 0) {
       navigate("/letters");
+      return;
+    }
+
+    let prevIndex = currentIndex - 1;
+    
+    // Skip unwanted indices
+    while (prevIndex >= 0 && skippedIndices.includes(letters[prevIndex].id)) {
+        prevIndex--;
+    }
+
+    if (prevIndex >= 0) {
+      navigate(`/letters/${letters[prevIndex].id}`);
+    } else {
+      navigate("/letters"); // Redirect if no valid previous letter exists
     }
   };
   
@@ -167,6 +205,43 @@ const LetterDetails = () => {
   
 
 
+  // const sendToBackend = async () => {
+  //   const canvas = canvasRef.current;
+
+  //   const tempCanvas = document.createElement("canvas");
+  //   tempCanvas.width = canvas.width;
+  //   tempCanvas.height = canvas.height;
+  //   const tempCtx = tempCanvas.getContext("2d");
+
+  //   tempCtx.fillStyle = "white";
+  //   tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+  //   tempCtx.drawImage(canvas, 0, 0);
+
+  //   const image = tempCanvas.toDataURL("image/png");
+
+  //   try {
+  //     const res = await api.post("/api/testcanvas/", { image });
+
+  //     if (res.data.predicted_label === letter.letter) {
+  //       setVerified(true);
+  //       toast("Great Job !!", {
+  //         className: "bg-blue-500 text-black border border-blue-700",
+  //       });
+
+  //       await api.patch("/api/update_user_progress/", {
+  //         completed_letters: [letter.letter],
+  //       });
+  //     } else {
+  //       toast(`Try Again :( ${res.data.predicted_label}`, {
+  //         className: "bg-blue-500 text-black border border-blue-700",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     alert("Error sending image to backend.");
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   const sendToBackend = async () => {
     const canvas = canvasRef.current;
 
@@ -181,28 +256,72 @@ const LetterDetails = () => {
 
     const image = tempCanvas.toDataURL("image/png");
 
+    //const specialLetters = ["ഋ", "൯", "ൺ", "ർ", "ൽ", "ൾ"];
+    const category = symbols.includes(letter.letter) ? "symbol" : "main";
+
+    const symbol_label = {
+        '്': 1,
+        'ാ': 2,
+        'ി': 3,
+        'ീ': 4,
+        'ു': 5,
+        'ൂ': 6,
+        'ൃ': 7,
+        'െ': 8,
+        'േ': 9,
+        'ൗ': 10,
+        'ം': 11
+    }
+
+    if (category == "symbol") {
+      console.log(letter.letter)
+    }
+
     try {
-      const res = await api.post("/api/testcanvas/", { image });
+      const res = await api.post("/api/testcanvas/", { image, category });
 
-      if (res.data.predicted_label === letter.letter) {
-        setVerified(true);
-        toast("Great Job !!", {
-          className: "bg-blue-500 text-black border border-blue-700",
-        });
-
-        await api.patch("/api/update_user_progress/", {
-          completed_letters: [letter.letter],
-        });
+      if (category == "main") {
+        if (res.data.predicted_label === letter.letter) {
+          setVerified(true);
+          toast("Great Job !!", {
+            className: "bg-blue-500 text-black border border-blue-700",
+          });
+      
+          await api.patch("/api/update_user_progress/", {
+            completed_letters: [letter.letter],
+          });
+        } else {
+          toast(`Try Again :( ${res.data.predicted_label}`, {
+            className: "bg-blue-500 text-black border border-blue-700",
+          });
+        }
       } else {
-        toast(`Try Again :( ${res.data.predicted_label}`, {
-          className: "bg-blue-500 text-black border border-blue-700",
-        });
+        const predictedSymbolKey = Object.keys(symbol_label).find(
+          key => symbol_label[key] === res.data.predicted_label
+        );
+      
+        if (predictedSymbolKey === letter.letter) {
+          setVerified(true);
+          toast("Great Job !!", {
+            className: "bg-blue-500 text-black border border-blue-700",
+          });
+      
+          await api.patch("/api/update_user_progress/", {
+            completed_letters: [letter.letter],
+          });
+        } else {
+          toast(`Try Again :( ${res.data.predicted_label}`, {
+            className: "bg-blue-500 text-black border border-blue-700",
+          });
+        }
       }
+      
     } catch (error) {
       alert("Error sending image to backend.");
       console.error("Error:", error);
     }
   };
+
 
   const playAudio = () => {
     const audio = audioRef.current;

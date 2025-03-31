@@ -60,6 +60,8 @@ export default {
       fontFamily: {
         arima: ["Arima", "sans-serif"],
         inria: ["Inria Serif", "serif"],
+        anek: ["Anek Malayalam", "sans-serif"],
+        baloo: ["Baloo Chettan 2", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

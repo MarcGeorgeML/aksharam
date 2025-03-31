@@ -17,7 +17,7 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const totalLetters = 49;
+    const totalLetters = 60;
     const totalWords = 129;
     const totalSentences = 49;
 
@@ -91,7 +91,7 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
                         <li key={index}>
                             <button
                                 onClick={() => navigate(item.path)}
-                                className={`text-text_green px-5 py-2 rounded-xl text-black text-[20px] font-inria transition hover:font-bold ${
+                                className={`text-text_green px-5 py-2 rounded-xl text-[20px] font-inria transition hover:font-bold ${
                                     location.pathname === item.path ? "border-2 border-gray-800" : ""
                                 }`}
                             >
