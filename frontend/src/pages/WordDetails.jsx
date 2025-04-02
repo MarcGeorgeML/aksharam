@@ -123,7 +123,7 @@ const WordDetails = () => {
       </button>
 
       {/* Category Name */}
-      <h2 className="font-arima absolute top-12 text-[70px] text-a_sc">
+      <h2 className="font-inria absolute top-12 text-[70px] text-a_sc">
         {categories.find((c) => c.id === parseInt(categoryId))?.category || "Category"}
       </h2>
 
@@ -142,8 +142,8 @@ const WordDetails = () => {
         </div>
         
         {/* English Version Aligned to Word */}
-        <div className="flex flex-col justify-center items-center text-center">
-            <h3 className="font-inria font-normal whitespace-nowrap text-[30px] text-gray-400">
+        <div className="flex flex-col justify-center items-center text-center pt-10">
+            <h3 className="font-inria font-bold whitespace-nowrap text-[35px] text-gray-700">
               {word.english_version}
             </h3>
         </div>

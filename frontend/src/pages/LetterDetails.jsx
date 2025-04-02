@@ -18,7 +18,19 @@ const LetterDetails = () => {
   const audioRef = useRef(null)
   const symbols = ['്', 'ാ', 'ി', 'ീ', 'ു', 'ൂ', 'ൃ', 'െ', 'േ', 'ൗ', 'ം'];
   const skippedIndices = [5, 49, 47, 48, 45, 46];
-
+  const letterExamples = {
+    '്': 'ക്',
+    'ാ': 'കാ',
+    'ി': 'കി',
+    'ീ': 'കീ',
+    'ു': 'കു',
+    'ൂ': 'കൂ',
+    'ൃ': 'കൃ',
+    'െ': 'കെ',
+    'േ': 'കേ',
+    'ൗ': 'കൗ',
+    'ം': 'കം',
+  };
 
   // Fetch all letters for navigation
   const fetchLetters = async () => {
@@ -330,8 +342,6 @@ const LetterDetails = () => {
       audio.play();           // Play the audio
     }
   };
-  
-
 
   return (
     <div className="bg-a_bg h-screen flex flex-col px-10 py-8">
@@ -347,14 +357,31 @@ const LetterDetails = () => {
           <button className="w-8 self-center " onClick={handlePrev}>
             <img src="/assets/back.png" alt="Back" />
           </button>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center pb-20 pt-14">
+            <h1 className='text-[28px] text-text_green mb-10'>{symbols.includes(letter.letter) ? "Symbol" : "Letter"}</h1>
             <h1 className="text-[200px] font-arima">{letter.letter}</h1>
             <audio ref={audioRef} src={`/audio/${letter.letter}.mp3`} />
-            <div className="flex gap-4 mt-4 w-12">
-              <button onClick={playAudio}>
-                <img src="/assets/sound-waves.png" alt="" />
+            {letterExamples[letter.letter] ?
+              <div className="flex gap-4 pt-4 justify-between items-center w-[300px]">
+                <div className='text-[80px] self-center font-arima'>
+                  {letterExamples[letter.letter] || letter.letter}
+                </div>
+                <p className='text-[40px] font-inria pb-4'>:</p>
+                <button onClick={playAudio} className='w-12 flex items-center'>
+                  <img src="/assets/mic.png" alt="" />
+                </button>
+              </div>
+            : 
+            <div className="flex gap-4 pt-4 justify-between items-center w-[150px]">
+              <p className='text-[28px] font-inria'>Audio</p>
+              <p className='text-[20px]'>:</p>
+              <button onClick={playAudio} className='w-12 flex items-center'>
+                <img src="/assets/mic.png" alt="" />
               </button>
             </div>
+            }
+            {/* <p className='pt-12'>To write a Malayalam letter, start at the left, move upward or curve as needed,<br/> and complete the shape by moving toward the bottom right, <br/>maintaining smooth, flowing strokes.</p> */}
+
             {/* {letter.examples.length != 0 && <div className="border-2 border-black text-[28px] px-10 py-10 rounded-xl">
               <p className="font-inria mb-5">Examples</p>
               {letter.examples && letter.examples.map((example, index) => (

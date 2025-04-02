@@ -7,6 +7,21 @@ import { Button } from "@/components/ui/button";
 import api from "../api";
 import { Progress } from "@/components/ui/progress";
 
+const XP_PER_ACTION = 30; 
+
+function getLevelFromXP(xp) {
+    let level = 1;
+    let requiredXP = 100; // Initial XP required for Level 1
+
+    while (xp >= requiredXP) {
+        xp -= requiredXP;
+        level++;
+        requiredXP = Math.round(requiredXP * 1.1); // 10% increase per level
+    }
+
+    return level;
+}
+
 const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default value of false
     const [username, setUsername] = useState("");
     const [userProgress, setUserProgress] = useState(null);
@@ -17,7 +32,7 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const totalLetters = 60;
+    const totalLetters = 54;
     const totalWords = 129;
     const totalSentences = 49;
 
@@ -43,6 +58,7 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
             try {
                 const response = await api.get("/api/get_user_progress/");
                 setUserProgress(response.data);
+                console.log(response.data)
             } catch (error) {
                 console.error("Error fetching user progress:", error);
             }
@@ -59,6 +75,9 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
     const letterProgress = (completedLetters / totalLetters) * 100;
     const wordProgress = (completedWords / totalWords) * 100;
     const sentenceProgress = (completedSentences / totalSentences) * 100;
+
+    const totalXP = (completedLetters + completedWords + completedSentences) * XP_PER_ACTION;
+    const userLevel = getLevelFromXP(totalXP);
 
     useEffect(() => {
         let timer1, timer2, timer3;
@@ -78,6 +97,7 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
             clearTimeout(timer3);
         };
     }, [sheetOpen, letterProgress, wordProgress, sentenceProgress]);
+    
 
     return (
         <nav className={`${isFixed ? 'fixed top-0 left-0 w-full z-10' : ''} bg-transparent px-4 pt-4`}>
@@ -110,10 +130,16 @@ const Navbar = ({ isFixed = false }) => {  // Added isFixed prop with a default 
                     <SheetContent className="bg-a_bg p-4 flex flex-col justify-between items-start font-inria">
                         <div className="font-inria w-full">
                             <h2 className="text-[25px] text-text_green mb-4">Profile</h2>
-                            <div className="text-start font-inria">
+                            <div className="flex justify-between items-center text-start font-inria">
                                 <p className="text-[30px] font-medium">
                                     {username ? username : "Loading..."}
                                 </p>
+                                <div className="relative w-14 h-14 flex items-center justify-center">
+                                    <img src="/assets/star.png" alt="Level Star" className="w-full h-full" />
+                                    <span className="absolute text-white text-[18px] font-bold pt-1">
+                                        {userLevel}
+                                    </span>
+                                </div>
                             </div>
                             <p className="text-[23px] text-text_green mb-4 mt-10">Progress : </p>
 

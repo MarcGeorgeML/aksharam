@@ -99,7 +99,7 @@ const Form = ({ route, method }) => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? "Processing..." : "ലോഗിൻ"}
+                                ലോഗിൻ
                             </button>
                             <button className="text-text_green font-inria mt-8" type="button" onClick={handleNewUser}>
                                 Create New Account
@@ -137,7 +137,7 @@ const Form = ({ route, method }) => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? "Processing..." : "രജിസ്റ്റർ"}
+                                രജിസ്റ്റർ
                             </button>
                             <button className="text-text_green font-inria mt-8" type="button" onClick={handleNewUser}>
                                 Already have an Account

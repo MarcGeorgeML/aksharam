@@ -101,7 +101,7 @@ const Letters = () => {
       </div>
 
       <div className="flex flex-col items-center font-inria">
-        <p className="text-text_green my-[50px] text-[35px] font-bold">Letters</p>
+        <p className="text-text_green my-[50px] text-[35px] font-bold">{currentPage == 4 ? "Symbols" : "Letters"}</p>
         <div className="flex flex-wrap gap-16 justify-center px-[50px]">
         {displayedLetters
           .filter((item) => !["ഋ", "൯", "ൺ", "ർ", "ൽ", "ൾ"].includes(item.letter))

@@ -98,15 +98,15 @@ const SentenceDetails = () => {
       <button onClick={handlePrev} className="absolute left-6 top-1/2 transform -translate-y-1/2 w-8 transition-transform duration-200 hover:scale-110">
         <img src="/assets/back.png" alt="Back" className="w-14" />
       </button>
-
-      <div className="flex flex-col justify-center items-center text-center w-full max-w-[80%] mt-[50px]">
-        <h1 className="font-inria font-normal text-[60px] leading-snug break-words text-center">
+      <h1 className="pb-14 text-[28px] text-text_main">Sentence</h1>
+      <div className="flex flex-col justify-cemter items-center text-center w-full max-w-[80%] mt-[50px] pb-20">
+        <h1 className="font-inria font-normal text-[50px] leading-snug break-words text-center">
           {sentence.sentence}
         </h1>
-        <h3 className="font-inria font-normal text-[20px] text-gray-400 mt-3 mb-[5px] leading-tight break-words text-center">
+        <h3 className="font-inria font-normal text-[40px] text-text_green mt-3 mb-[55px] leading-tight break-words text-center">
           {sentence.english_version}
         </h3>
-        <h1 className="font-inria font-normal text-[45px] text-gray-700 leading-snug break-words text-center">
+        <h1 className="font-inria font-normal text-[40px] text-gray-700 leading-snug break-words text-center">
           {sentence.sentence_translation}
         </h1>
       </div>
