@@ -20,7 +20,7 @@ const Letters = () => {
     api
       .get("/api/letters/")
       .then((res) => {setLetters(res.data); console.log(res.data)})
-      .catch((err) => alert(err));
+      .catch((err) => console.error(err));
   };
 
   const getUserProgress = () => {
