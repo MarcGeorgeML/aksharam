@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const sentences = [
   { text: "Relearn with confidence", image: "/assets/idea.png" },
   { text: "Progress with ease", image: "/assets/progress.png" },
-  { text: "Come explore Aksharam", image: "/assets/loupe.png" }
+  { text: "Come explore Malayalam", image: "/assets/loupe.png" }
 ];
 
 const LandingPage = () => {
