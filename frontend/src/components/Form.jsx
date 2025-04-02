@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import api from "../api";
@@ -22,14 +21,28 @@ const Form = ({ route, method }) => {
             const res = await api.post(route, { username, password });
     
             if (method === "login") {
+                // Login flow remains the same
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/home");
             } else {
-                navigate("/login");
+                // Registration now also handles login
+                // The updated backend returns tokens with registration
+                localStorage.setItem(ACCESS_TOKEN, res.data.access);
+                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                navigate("/home"); // Navigate directly to home instead of login
             }
         } catch (error) {
-            setInvalid("Invalid User");
+            // Enhanced error handling
+            if (error.response && error.response.data) {
+                if (error.response.data.detail === "invalid_username") {
+                    setInvalid("Username already exists");
+                } else {
+                    setInvalid("Registration failed");
+                }
+            } else {
+                setInvalid("Invalid user credentials");
+            }
         } finally {
             setLoading(false);
         }
@@ -81,8 +94,12 @@ const Form = ({ route, method }) => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <p className="font-inria self-end text-red-600">{invalid}</p>
-                            <button className="font-arima text-xl bg-a_sc px-5 py-2 rounded-xl text-a_bg mt-5" type="submit">
-                                ലോഗിൻ
+                            <button 
+                                className="font-arima text-xl bg-a_sc px-5 py-2 rounded-xl text-a_bg mt-5" 
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? "Processing..." : "ലോഗിൻ"}
                             </button>
                             <button className="text-text_green font-inria mt-8" type="button" onClick={handleNewUser}>
                                 Create New Account
@@ -115,8 +132,12 @@ const Form = ({ route, method }) => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <p className="font-inria self-end text-red-600">{invalid}</p>
-                            <button className="font-arima text-xl bg-a_sc px-5 py-2 rounded-xl text-a_bg mt-5" type="submit">
-                                രജിസ്റ്റർ
+                            <button 
+                                className="font-arima text-xl bg-a_sc px-5 py-2 rounded-xl text-a_bg mt-5" 
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? "Processing..." : "രജിസ്റ്റർ"}
                             </button>
                             <button className="text-text_green font-inria mt-8" type="button" onClick={handleNewUser}>
                                 Already have an Account
@@ -130,11 +151,9 @@ const Form = ({ route, method }) => {
     );
 }
 
-
 Form.propTypes = {
     route: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
 };
-
 
 export default Form;

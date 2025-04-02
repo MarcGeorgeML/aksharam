@@ -27,6 +27,7 @@ from surya.recognition import RecognitionPredictor
 from surya.detection import DetectionPredictor
 import base64
 from google.cloud import translate_v2 as translate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 # Create your views here.
@@ -432,20 +433,29 @@ def create_user(request):
     if User.objects.filter(username=username).exists():
         print('user exists')
         return Response({"detail": "invalid_username"}, status=status.HTTP_400_BAD_REQUEST)
-
+    
     # If the username doesn't exist, proceed with the serializer
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         # Save the user object
         user = serializer.save()
-
         # Create a new UserProgress record for the new user
         UserProgress.objects.create(user=user)
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+        
+        # Generate tokens for the newly created user
+        from rest_framework_simplejwt.tokens import RefreshToken
+        refresh = RefreshToken.for_user(user)
+        
+        # Return both the user data and tokens
+        response_data = {
+            'user': serializer.data,
+            'access': str(refresh.access_token),
+            'refresh': str(refresh)
+        }
+        
+        return Response(response_data, status=status.HTTP_201_CREATED)
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
