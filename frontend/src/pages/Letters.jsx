@@ -19,14 +19,17 @@ const Letters = () => {
   const getLetters = () => {
     api
       .get("/api/letters/")
-      .then((res) => setLetters(res.data))
+      .then((res) => {setLetters(res.data); console.log(res.data)})
       .catch((err) => alert(err));
   };
 
   const getUserProgress = () => {
     api
       .get("/api/get_user_progress/")
-      .then((res) => setCompletedLetters(res.data.completed_letters))
+      .then((res) => {
+        setCompletedLetters(res.data.completed_letters); 
+        console.log(res.data.completed_letters)
+      })
       .catch((err) => console.error("Error fetching progress:", err));
   };
 
@@ -51,6 +54,20 @@ const Letters = () => {
     (currentPage + 1) * lettersPerPage
   );
 
+  const handleStart = () => {
+    const ignoredLetters = ["ഋ", "൯", "ൺ", "ർ", "ൽ", "ൾ"];
+  
+    const incompleteLetter = letters.find(
+      (letter) => !completedLetters.includes(letter.letter) && !ignoredLetters.includes(letter.letter)
+    );
+  
+    const targetLetter = incompleteLetter || letters.find(letter => !ignoredLetters.includes(letter.letter));
+  
+    if (targetLetter) {
+      navigate(`/letters/${targetLetter.id}`, { state: { letter: targetLetter } });
+    }
+  };
+
   return (
     <div className="bg-a_bg pb-10">
       <Navbar activeIndex={1} isFixed={false} />
@@ -70,7 +87,10 @@ const Letters = () => {
           
           <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
             <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Master Malayalam script with <br /> interactive writing, AI-powered <br /> feedback, and real-world examples!</p>
-            <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32">
+            <button 
+              className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32"
+              onClick={handleStart}
+            >
               <p>Start</p>
             </button>
           </div>

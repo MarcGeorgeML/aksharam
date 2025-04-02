@@ -15,6 +15,7 @@ const Words = () => {
       try {
         const res = await api.get("/api/words/");
         setCategories(res.data.Words || []);
+        console.log(res.data.Words)
       } catch (error) {
         console.error("Error fetching words:", error);
       }
@@ -24,6 +25,7 @@ const Words = () => {
       try {
         const res = await api.get("/api/get_user_progress/");
         setCompletedWords(new Set(res.data.completed_words || []));
+        console.log(res.data.completed_words)
       } catch (error) {
         console.error("Error fetching completed words:", error);
       }
@@ -37,6 +39,23 @@ const Words = () => {
 
   const handleClick = (word) => {
     navigate(`/words/${currentCategory.id}/${word.id}`, { state: { word } });
+  };
+
+  const handleStart = () => {
+    // Find the first category with an incomplete word
+    for (const category of categories) {
+      const incompleteWord = category.words.find(word => !completedWords.has(word.word));
+  
+      if (incompleteWord) {
+        navigate(`/words/${category.id}/${incompleteWord.id}`, { state: { word: incompleteWord } });
+        return;
+      }
+    }
+  
+    // If all words are completed, navigate to the first word in the first category
+    if (categories.length > 0 && categories[0].words.length > 0) {
+      navigate(`/words/${categories[0].id}/${categories[0].words[0].id}`, { state: { word: categories[0].words[0] } });
+    }
   };
 
   return (
@@ -58,7 +77,7 @@ const Words = () => {
               
               <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
                 <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Learn essential Malayalam <br /> words and sentences to improve<br /> your everyday conversations!</p>
-                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[36px]">
+                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[36px]" onClick={handleStart}>
                   <p>Start</p>
                 </button>
               </div>

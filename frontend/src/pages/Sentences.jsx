@@ -54,6 +54,17 @@ const Sentences = () => {
     (currentPage + 1) * sentencesPerPage
   );
 
+  const handleStart = () => {
+    const incompleteSentence = sentences.find(sentence => !completedSentences.includes(sentence.sentence));
+  
+    const targetSentence = incompleteSentence || sentences[0];
+  
+    if (targetSentence) {
+      navigate(`/sentences/${targetSentence.id}`, { state: { sentence: targetSentence } });
+    }
+  };
+  
+
   return (
     <div className="bg-a_bg pb-10">
           <Navbar activeIndex={1} isFixed={false} />
@@ -73,7 +84,7 @@ const Sentences = () => {
               
               <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
                 <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">Learn basic Malayalam <br /> sentences to improve <br /> your everyday conversations!</p>
-                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[72px]">
+                <button className="w-40 font-inria text-[30px] text-a_bg py-3 bg-text_main rounded-3xl mb-32 mr-[72px]" onClick={handleStart}>
                   <p>Start</p>
                 </button>
               </div>
