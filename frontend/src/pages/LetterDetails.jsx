@@ -18,7 +18,7 @@ const LetterDetails = () => {
   const audioRef = useRef(null)
   const symbols = ['്', 'ാ', 'ി', 'ീ', 'ു', 'ൂ', 'ൃ', 'െ', 'േ', 'ൗ', 'ം'];
   const skippedIndices = [5, 49, 47, 48, 45, 46];
-  const letterExamples = {
+  const symbolExamples = {
     '്': 'ക്',
     'ാ': 'കാ',
     'ി': 'കി',
@@ -360,11 +360,14 @@ const LetterDetails = () => {
           <div className="flex flex-col justify-center items-center pb-20 pt-14">
             <h1 className='text-[28px] text-text_green mb-10'>{symbols.includes(letter.letter) ? "Symbol" : "Letter"}</h1>
             <h1 className="text-[200px] font-arima">{letter.letter}</h1>
-            <audio ref={audioRef} src={`/audio/${letter.letter}.mp3`} />
-            {letterExamples[letter.letter] ?
+            <audio
+              ref={audioRef}
+              src={`/audio/${symbolExamples[letter.letter] || letter.letter}.mp3`}
+            />
+            {symbolExamples[letter.letter] ?
               <div className="flex gap-4 pt-4 justify-between items-center w-[300px]">
                 <div className='text-[80px] self-center font-arima'>
-                  {letterExamples[letter.letter] || letter.letter}
+                  {symbolExamples[letter.letter] || letter.letter}
                 </div>
                 <p className='text-[40px] font-inria pb-4'>:</p>
                 <button onClick={playAudio} className='w-12 flex items-center'>
