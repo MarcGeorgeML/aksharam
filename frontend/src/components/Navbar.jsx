@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import api from "../api";
 import { Progress } from "@/components/ui/progress";
 
-const XP_PER_ACTION = 30; 
+const XP_PER_ACTION = 5; 
 
 function getLevelFromXP(xp) {
     let level = 1;

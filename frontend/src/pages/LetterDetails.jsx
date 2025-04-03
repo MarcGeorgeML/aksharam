@@ -295,7 +295,7 @@ const LetterDetails = () => {
       if (category == "main") {
         if (res.data.predicted_label === letter.letter) {
           setVerified(true);
-          toast("Great Job !!", {
+          toast("Great Job 🥳", {
             className: "bg-blue-500 text-black border border-blue-700",
           });
       
@@ -303,7 +303,7 @@ const LetterDetails = () => {
             completed_letters: [letter.letter],
           });
         } else {
-          toast(`Try Again :( ${res.data.predicted_label}`, {
+          toast(`Try Again 😢`, {
             className: "bg-blue-500 text-black border border-blue-700",
           });
         }
@@ -314,7 +314,7 @@ const LetterDetails = () => {
       
         if (predictedSymbolKey === letter.letter) {
           setVerified(true);
-          toast("Great Job !!", {
+          toast("Great Job 🥳", {
             className: "bg-blue-500 text-black border border-blue-700",
           });
       
@@ -322,7 +322,7 @@ const LetterDetails = () => {
             completed_letters: [letter.letter],
           });
         } else {
-          toast(`Try Again :( ${res.data.predicted_label}`, {
+          toast(`Try Again 😢`, {
             className: "bg-blue-500 text-black border border-blue-700",
           });
         }

@@ -12,4 +12,7 @@ backend/api/migrations/__pycache__
 backend/api/ml_model/__pycache__
 todo
 backend/credentials
+malayalam_mnist/aksharam_data
+malayalam_mnist/symbol_data
+test_images
 

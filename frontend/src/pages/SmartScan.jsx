@@ -93,8 +93,8 @@ const SmartScan = () => {
                     </div>
     
                     <div className="flex flex-col justify-between items-center self-start h-full pt-[80px]">
-                        <p className="text-black font-inria text-[25px] border-2 border-black rounded-2xl px-10 py-16">
-                            Learn Malayalam from <br /> Images with the help of AI
+                        <p className="text-black font-inria text-[20px] border-2 border-black rounded-2xl px-10 py-16">
+                            Convert unseen scripts into <br/> meaningful sentences, providing <br/> an opportunity for learning rather <br/> than a barrier to understanding
                         </p>
                         <button
                             onClick={handleButtonClick}
