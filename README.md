@@ -39,3 +39,8 @@ Our platform integrates a LeNet-based handwritten character recognition model th
 ---
 
 Aksharam is a collaborative effort to make Malayalam learning accessible, intelligent, and interactive through modern AI and web technologies. Feel free to explore, learn, and contribute!
+
+## 👥 Team
+- [Timon K John](https://github.com/tims-exe)
+- [Marc George](https://github.com/marcgeorgeml)
+- Merlin Sarah Jiju
